@@ -19,6 +19,10 @@ import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
 import { Skeleton } from "@/components/ui/skeleton"
 import ShoppingListing from "./pages/shopping-view/listing";
+import PaystackReturnPage from "./pages/shopping-view/paystack-return";
+import PaymentSuccessPage from "./pages/shopping-view/payment-success";
+import SearchProducts from "./pages/shopping-view/search";
+// import Footer from "./components/shopping-view/footer";
 
 
 function App() {
@@ -79,12 +83,16 @@ console.log(isLoading, user)
           <Route path="listing" element={<ShoppingListing/>} />
           <Route path="checkout" element={<ShoppingCheckout />} />
           <Route path="account" element={<ShoppingAccount />} />
+          <Route path="paystack-return" element={<PaystackReturnPage/>} />
+          <Route path="payment-success" element={<PaymentSuccessPage/>} />
+          <Route path="search" element={<SearchProducts/>} />
         </Route>
 
         {/* Unauthenticated and Not Found Pages */}
         <Route path="/unauth-page" element={<UnauthPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      {/* <Footer/> */}
     </div>
   );
 }
