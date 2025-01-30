@@ -132,18 +132,17 @@ export const registerFormControls = [
       label: "Laptops",
       path: "/shop/listing",
     },
-    
     {
       id: "accessories",
       label: "Accessories",
       path: "/shop/listing",
     },
-   
-    {
-      id: "search",
-      label: "Search",
-      path: "/shop/search",
-    },
+    // {
+    //   id: "search",
+    //   label: "Search",
+    //   path: "/shop/search",
+      
+    // },
   ];
 
   export const categoryOptionsMap = {
@@ -191,4 +190,41 @@ export const registerFormControls = [
     // { id: "popularity", label: "Most Popular" },
   ];
   
+
+  export const addressFormControls = [
+    {
+      label: "Address",
+      name: "address",
+      componentType: "input",
+      type: "text",
+      placeholder: "Enter your address",
+    },
+    {
+      label: "City",
+      name: "city",
+      componentType: "input",
+      type: "text",
+      placeholder: "Enter your city",
+    },
+    {
+      label: "Pincode",
+      name: "pincode",
+      componentType: "input",
+      type: "text",
+      placeholder: "Enter your pincode",
+    },
+    {
+      label: "Phone",
+      name: "phone",
+      componentType: "input",
+      type: "text",
+      placeholder: "Enter your phone number",
+    },
+    {
+      label: "Notes",
+      name: "notes",
+      componentType: "textarea",
+      placeholder: "Enter any additional notes",
+    },
+  ];
   

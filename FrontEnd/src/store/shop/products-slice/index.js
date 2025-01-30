@@ -1,4 +1,3 @@
-
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -10,8 +9,8 @@ const initialState = {
 
 export const fetchAllFilteredProducts = createAsyncThunk(
   "/products/fetchAllProducts",
-  async ({filterParams, sortParams}) => {
-    console.log(fetchAllFilteredProducts, "fetchAllFilteredProducts");
+  async ({ filterParams, sortParams }) => {
+    // console.log(fetchAllFilteredProducts, "fetchAllFilteredProducts");
 
     const query = new URLSearchParams({
       ...filterParams,
@@ -22,7 +21,7 @@ export const fetchAllFilteredProducts = createAsyncThunk(
       `http://localhost:8050/api/shop/products/get?${query}`
     );
 
-    console.log(result);
+    // console.log(result);
 
     return result?.data;
   }
@@ -53,7 +52,6 @@ const shoppingProductSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchAllFilteredProducts.fulfilled, (state, action) => {
-        console.log(action.payload, "action payload");
         state.isLoading = false;
         state.productList = action.payload.data;
       })
@@ -78,7 +76,3 @@ const shoppingProductSlice = createSlice({
 export const { setProductDetails } = shoppingProductSlice.actions;
 
 export default shoppingProductSlice.reducer;
-
-
-
-
