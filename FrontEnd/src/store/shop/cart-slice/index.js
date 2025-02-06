@@ -32,6 +32,29 @@ export const fetchCartItems = createAsyncThunk(
     return response.data;
   }
 );
+// export const fetchCartItems = createAsyncThunk(
+//   "cart/fetchCartItems",
+//   async (userId, { rejectWithValue, getState }) => {
+//     if (!userId) {
+//       return rejectWithValue("User ID is missing");
+//     }
+
+//     // Check if cart already has items
+//     const { cart } = getState();
+//     if (!cart.cartItems || cart.cartItems.length === 0) {
+//       return rejectWithValue("Cart is empty, no need to fetch");
+//     }
+
+//     try {
+//       const response = await axios.get(
+//         `http://localhost:8050/api/shop/cart/get/${userId}`
+//       );
+//       return response.data;
+//     } catch (error) {
+//       return rejectWithValue(error.response?.data || "Failed to fetch cart items");
+//     }
+//   }
+// );
 
 export const deleteCartItem = createAsyncThunk(
   "cart/deleteCartItem",

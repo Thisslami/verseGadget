@@ -48,7 +48,7 @@ function ProductImageUpload({
     }
   }
 
-  console.log(imageFile);
+  // console.log(imageFile);
 
   async function uploadImageToCloudinary(){
     setImageLoadingState(true);
