@@ -6,6 +6,7 @@ require("dotenv").config();
 const authRouter = require("./routes/auth/auth-routes");
 const adminProductsRouter = require("./routes/admin/products-routes");
 const adminOrdersRouter = require("./routes/admin/order-routes");
+const adminVerifiedUsersRouter = require("./routes/admin/verified-user-routes");
 const shopProductsRouter = require("./routes/shop/products-routes");
 const shopCartRouter = require("./routes/shop/cart-routes");
 const shopAddressesRouter = require("./routes/shop/address-routes");
@@ -49,6 +50,7 @@ mongoose
     app.use("/api/auth", authRouter);
     app.use("/api/admin/products", adminProductsRouter);
     app.use("/api/admin/orders", adminOrdersRouter);
+    app.use("/api/admin/verified-users",adminVerifiedUsersRouter);
     app.use("/api/shop/products", shopProductsRouter);
     app.use("/api/shop/cart", shopCartRouter);
     app.use("/api/shop/address", shopAddressesRouter);
