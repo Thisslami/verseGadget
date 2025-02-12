@@ -313,6 +313,17 @@ function CommonForm({
       <Button disabled={isBtnDisabled} type="submit" className="mt-2 w-full">
         {buttonText || "Submit"}
       </Button>
+      {/* <Button
+  disabled={isBtnDisabled}
+  type="submit"
+  className={`mt-2 w-full py-2 px-4 rounded-lg text-white font-semibold
+    ${isBtnDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 active:scale-95'}
+    transition-all duration-200 ease-in-out shadow-lg hover:shadow-xl
+  `}
+>
+  {buttonText || "Submit"}
+</Button> */}
+
     </form>
   );
 }

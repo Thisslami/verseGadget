@@ -120,41 +120,37 @@ import { useToast } from '@/components/ui/use-toast';
 import { Mail, ArrowLeft, Loader } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import CommonForm from '@/components/common/form';
 
-const ForgotPasswordPage = () => {
-  const [email, setEmail] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const { isLoading, message, error } = useSelector((state) => state.auth);
+const forgotPasswordControls = [
+  {
+    name: "email",
+    label: "Email Address",
+    placeholder: "Enter your email",
+    componentType: "input",
+    type: "email",
+  },
+];
+
+function ForgotPasswordPage() {
+  const [formData, setFormData] = useState({ email: "" });
   const dispatch = useDispatch();
   const { toast } = useToast();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { isLoading, error } = useSelector((state) => state.auth);
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email) {
-      toast({
-        title: 'Error',
-        description: 'Email is required!',
-        variant: 'destructive',
-      });
+    if (!formData.email) {
+      toast({ title: "Error", description: "Email is required!", variant: "destructive" });
       return;
     }
-
     try {
-      // Dispatch the forgotPassword action
-      const response = await dispatch(forgotPassword({ email })).unwrap();
-      toast({
-        title: 'Success',
-        description: response.message,
-        variant: 'success',
-      });
+      const response = await dispatch(forgotPassword({ email: formData.email })).unwrap();
+      toast({ title: "Success", description: response.message, variant: "success" });
       setIsSubmitted(true);
     } catch (err) {
-      toast({
-        title: 'Error',
-        description: error || 'Failed to send reset password email',
-        variant: 'destructive',
-      });
+      toast({ title: "Error", description: error || "Failed to send reset password email", variant: "destructive" });
     }
   };
 
@@ -166,63 +162,35 @@ const ForgotPasswordPage = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="p-8">
-        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-700 to-emerald-600 text-transparent bg-clip-text">
+        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-black to-indigo-500 text-transparent bg-clip-text">
           Forgot Password
         </h2>
 
         {!isSubmitted ? (
-          <form onSubmit={handleSubmit}>
-            <p className="text-gray-300 mb-6 text-center">
-              Enter your email address and we'll send you a link to reset your password.
-            </p>
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email Address
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-2 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-            <motion.button
-              type="submit"
-              className="w-full bg-gradient-to-r from-blue-500 to-emerald-600 text-white p-3 rounded-md disabled:bg-blue-300"
-              disabled={isLoading}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {isLoading ? <Loader className="size-6 animate-spin mx-auto" /> : 'Send Reset Link'}
-            </motion.button>
-          </form>
+          <CommonForm
+            formControls={forgotPasswordControls}
+            buttonText="Send Reset Link"
+            formData={formData}
+            setFormData={setFormData}
+            onSubmit={handleSubmit}
+            isBtnDisabled={isLoading}
+          />
         ) : (
           <div className="text-center">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-              className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4"
-            >
-              <Mail className="h-8 w-8 text-white" />
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-gray-300">
+              Check your email for a password reset link.
             </motion.div>
-            <p className="text-gray-300 mb-6">
-              If an account exists for {email}, you will receive a password reset link shortly.
-            </p>
           </div>
         )}
       </div>
-
       <div className="px-8 py-4 bg-gray-900 bg-opacity-50 flex justify-center">
-        <Link to="/auth/login" className="text-sm text-white hover:underline flex items-center">
-          <ArrowLeft className="h-4 w-4 mr-2" /> Back to Login
+        <Link to={"/auth/login"} className="text-white hover:underline flex items-center gap-2">
+          <ArrowLeft size={18} /> Back to Login
         </Link>
       </div>
     </motion.div>
   );
-};
+}
+
 
 export default ForgotPasswordPage;

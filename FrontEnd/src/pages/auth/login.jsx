@@ -228,7 +228,7 @@ function AuthLogin() {
       className="max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden mx-auto"
     >
       <div className="p-8">
-        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-black to-emerald-500 text-transparent bg-clip-text">
+        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-black to-indigo-500 text-transparent bg-clip-text">
           Welcome Back
         </h2>
 
