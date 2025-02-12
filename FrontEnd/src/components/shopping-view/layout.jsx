@@ -10,6 +10,7 @@ const ShoppingLayout = () => {
 
       {/* Main Content */}
       <main className="flex-grow w-full">
+        
         <Outlet />
       </main>
 
