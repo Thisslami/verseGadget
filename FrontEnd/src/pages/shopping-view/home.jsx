@@ -465,6 +465,35 @@ function ShoppingHome() {
   const { toast } = useToast();
   const [featuredIndex, setFeaturedIndex] = useState(0);
 
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+
+  // Custom shuffle function
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)); // Random index from 0 to i
+      [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+    }
+    return array;
+  };
+
+  useEffect(() => {
+    // Initial shuffle
+    shuffleFeaturedProducts();
+
+    // Set interval to reshuffle every hour
+    const interval = setInterval(shuffleFeaturedProducts, 60 * 60 * 1000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, [productList]);
+
+  const shuffleFeaturedProducts = () => {
+    if (productList.length > 0) {
+      const shuffledProducts = shuffleArray([...productList]).slice(0, 8); // Shuffle and take first 8
+      setFeaturedProducts(shuffledProducts);
+    }
+  };
+
   function handleNavigateToListingPage(getCurrentItem, section) {
     sessionStorage.removeItem("filters");
     const currentFilter = {
@@ -605,6 +634,31 @@ function ShoppingHome() {
         </Button>
       </div>
 
+      <section className="py-12">
+  <div className="container mx-auto px-4">
+    <h2 className="text-3xl font-bold text-center mb-8">Trending Products</h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {displayedProducts.length > 0 &&
+        displayedProducts.map((productItem, index) => (
+          <motion.div
+            key={productItem.id}
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            whileHover={{ scale: 1.05, boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.1)" }}
+            className="cursor-pointer"
+          >
+            <ShoppingProductTile
+              handleGetProductDetails={handleGetProductDetails}
+              product={productItem}
+              handleAddToCart={handleAddToCart}
+            />
+          </motion.div>
+        ))}
+    </div>
+  </div>
+</section>
+
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">
@@ -659,46 +713,30 @@ function ShoppingHome() {
         </div>
       </section>
 
-      <section className="py-12">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">
-            Trending Products
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {displayedProducts.length > 0 &&
-              displayedProducts.map((productItem) => (
-                <ShoppingProductTile
-                  key={productItem.id}
-                  handleGetProductDetails={handleGetProductDetails}
-                  product={productItem}
-                  handleAddToCart={handleAddToCart}
-                />
-              ))}
-          </div>
-        </div>
-      </section>
+    
 
-      <section className="py-12 ">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">
-            Feature Products
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {productList && productList.length > 0
-              ? productList
-                  .slice(0, 8)
-                  .map((productItem) => (
-                    <ShoppingProductTile
-                      key={productItem.id}
-                      handleGetProductDetails={handleGetProductDetails}
-                      product={productItem}
-                      handleAddToCart={handleAddToCart}
-                    />
-                  ))
-              : null}
-          </div>
+      <section className="py-12">
+      <div className="container mx-auto px-4">
+        <h2 className="text-3xl font-bold text-center mb-8">Feature Products</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {featuredProducts.map((productItem, index) => (
+            <motion.div
+              key={productItem.id}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <ShoppingProductTile
+                handleGetProductDetails={handleGetProductDetails}
+                product={productItem}
+                handleAddToCart={handleAddToCart}
+              />
+            </motion.div>
+          ))}
         </div>
-      </section>
+      </div>
+    </section>
 
 
       <section className="py-12 bg-gray-50">

@@ -92,28 +92,20 @@ const initialState = {
 };
 
 function AuthRegister() {
-  // State to hold form data
   const [formData, setFormData] = useState(initialState);
-  const dispatch = useDispatch(); // Dispatch to save user data
-  const navigate = useNavigate(); // For redirecting after success
-  const { toast } = useToast(); // Toast for messages
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
-  // When the user submits the form
   function onSubmit(event) {
-    event.preventDefault(); // Stop the page from reloading
+    event.preventDefault();
     dispatch(registerUser(formData)).then((data) => {
-      // If registration is successful
       if (data?.payload?.success) {
-        toast({
-          title: data?.payload?.message, // Show success message
-        });
+        toast({ title: data?.payload?.message });
         navigate("/auth/verify-email");
-        setFormData(initialState); // Go to login page
+        setFormData(initialState);
       } else {
-        toast({
-          title: data?.payload?.message, // Show error message
-          variant: "destructive", // Make it look like an error (red)
-        });
+        toast({ title: data?.payload?.message, variant: "destructive" });
       }
     });
   }
@@ -130,31 +122,15 @@ function AuthRegister() {
           Create Account
         </h2>
 
-        {/* Using CommonForm with existing fields */}
-        <form onSubmit={onSubmit}>
-          <CommonForm
-            formControls={registerFormControls} // The input fields
-            buttonText={"Sign Up"} // Button text
-            formData={formData} // The current data
-            setFormData={setFormData} // Update the data as the user types
-            onSubmit={onSubmit}
-          />
-          
-          {/* Password Strength Meter for password input */}
-          <PasswordStrengthMeter password={formData.password} />
+        <CommonForm
+          formControls={registerFormControls}
+          buttonText="Sign Up"
+          formData={formData}
+          setFormData={setFormData}
+          onSubmit={onSubmit}
+        />
 
-          {/* Loading state and submit button */}
-          <motion.button
-            className="mt-5 w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold rounded-lg shadow-lg hover:from-indigo-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            type="submit"
-            disabled={false} // Disable based on your state
-          >
-            <Loader className="animate-spin mx-auto" size={24} />
-            Sign Up
-          </motion.button>
-        </form>
+        <PasswordStrengthMeter password={formData.password} />
       </div>
       <div className="px-8 py-4 bg-gray-900 bg-opacity-50 flex justify-center">
         <p className="text-sm text-white">
@@ -167,5 +143,6 @@ function AuthRegister() {
     </motion.div>
   );
 }
+
 
 export default AuthRegister;

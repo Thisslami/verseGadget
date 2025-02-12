@@ -100,8 +100,6 @@
 
 // export default ResetPasswordPage;
 
-
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Lock, Eye, EyeOff } from "lucide-react";
@@ -112,7 +110,10 @@ import CommonForm from "../../components/common/Form";
 import { resetPassword } from "../../store/auth-slice/index";
 
 const ResetPasswordPage = () => {
-  const [formData, setFormData] = useState({ password: "", confirmPassword: "" });
+  const [formData, setFormData] = useState({
+    password: "",
+    confirmPassword: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -136,7 +137,9 @@ const ResetPasswordPage = () => {
     }
 
     try {
-      await dispatch(resetPassword({ token, formData: { password: formData.password } })).unwrap();
+      await dispatch(
+        resetPassword({ token, formData: { password: formData.password } })
+      ).unwrap();
 
       toast({
         title: "Success",
@@ -184,7 +187,7 @@ const ResetPasswordPage = () => {
       className="max-w-md w-full bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden"
     >
       <div className="p-8">
-        <h2 className="text-3xl font-bold mb-6 text-center ">
+        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-black to-indigo-500 text-transparent bg-clip-text">
           Reset Password
         </h2>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
