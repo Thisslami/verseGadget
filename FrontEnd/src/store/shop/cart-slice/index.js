@@ -33,6 +33,7 @@ export const fetchCartItems = createAsyncThunk(
   }
 );
 
+
 export const deleteCartItem = createAsyncThunk(
   "cart/deleteCartItem",
   async ({ userId, productId }) => {

@@ -62,6 +62,23 @@ export const deleteProduct = createAsyncThunk(
   }
 );
 
+export const postProductToShoppingHome = createAsyncThunk(
+  "/products/postToShoppingHome",
+  async (formData) => {
+    const result = await axios.post(
+      "http://localhost:8050/api/products/shoppinghome/add", // Ensure this API exists
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return result?.data;
+  }
+);
+
+
 const AdminProductsSlice = createSlice({
   name: "adminProducts",
   initialState,
@@ -78,7 +95,18 @@ const AdminProductsSlice = createSlice({
       .addCase(fetchAllProducts.rejected, (state, action) => {
         state.isLoading = false;
         state.productList = [];
-      });
+      })
+  .addCase(postProductToShoppingHome.pending, (state) => {
+    state.isLoading = true;
+  })
+  .addCase(postProductToShoppingHome.fulfilled, (state, action) => {
+    state.isLoading = false;
+    // Handle successful posting (maybe update UI or show a message)
+  })
+  .addCase(postProductToShoppingHome.rejected, (state) => {
+    state.isLoading = false;
+  });
+
   },
 });
 

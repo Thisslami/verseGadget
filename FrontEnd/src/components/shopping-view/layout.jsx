@@ -1,25 +1,23 @@
-import { Outlet } from "react-router-dom"
+import { Outlet } from "react-router-dom";
 import ShoppingHeader from "./header";
-// import Footer from "./footer";
-
-
-
+import Footer from "./footer"; // Import Footer Component
 
 const ShoppingLayout = () => {
   return (
-    <div className="flex flex-col bg-white overflow-hidden">
-      {/* common header */}
+    <div className="flex flex-col min-h-screen bg-white overflow-hidden">
+      {/* Common header */}
       <ShoppingHeader />
-      
-      <main className="flex flex-col w-full">
+
+      {/* Main Content */}
+      <main className="flex-grow w-full">
+        
         <Outlet />
       </main>
 
-      {/* Footer that will show on every page */}
-      {/* <Footer/> */}
+      {/* Common Footer */}
+      <Footer />
     </div>
   );
 };
-
 
 export default ShoppingLayout;

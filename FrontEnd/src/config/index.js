@@ -191,7 +191,51 @@ export const registerFormControls = [
   ];
   
 
+  // export const addressFormControls = [
+  //   {
+  //     label: "Address",
+  //     name: "address",
+  //     componentType: "input",
+  //     type: "text",
+  //     placeholder: "Enter your address",
+  //   },
+  //   {
+  //     label: "City",
+  //     name: "city",
+  //     componentType: "input",
+  //     type: "text",
+  //     placeholder: "Enter your city",
+  //   },
+  //   {
+  //     label: "Pincode",
+  //     name: "pincode",
+  //     componentType: "input",
+  //     type: "text",
+  //     placeholder: "Enter your pincode",
+  //   },
+  //   {
+  //     label: "Phone",
+  //     name: "phone",
+  //     componentType: "input",
+  //     type: "text",
+  //     placeholder: "Enter your phone number",
+  //   },
+  //   {
+  //     label: "Notes",
+  //     name: "notes",
+  //     componentType: "textarea",
+  //     placeholder: "Enter any additional notes",
+  //   },
+  // ];
+  
   export const addressFormControls = [
+    {
+      label: "Full Name",
+      name: "fullName",
+      componentType: "input",
+      type: "text",
+      placeholder: "Enter your full name",
+    },
     {
       label: "Address",
       name: "address",
@@ -200,18 +244,18 @@ export const registerFormControls = [
       placeholder: "Enter your address",
     },
     {
-      label: "City",
-      name: "city",
+      label: "Local Government Area (LGA)",
+      name: "lga",
       componentType: "input",
       type: "text",
-      placeholder: "Enter your city",
+      placeholder: "Enter your Local Government Area",
     },
     {
-      label: "Pincode",
-      name: "pincode",
+      label: "City/State",
+      name: "state",
       componentType: "input",
       type: "text",
-      placeholder: "Enter your pincode",
+      placeholder: "Enter your state",
     },
     {
       label: "Phone",
@@ -219,6 +263,22 @@ export const registerFormControls = [
       componentType: "input",
       type: "text",
       placeholder: "Enter your phone number",
+    },
+    {
+      label: "Postal Code",
+      name: "pincode",
+      componentType: "input",
+      type: "text",
+      placeholder: "Enter your postal code",
+    },
+    {
+      label: "Country",
+      name: "country",
+      componentType: "input",
+      type: "text",
+      placeholder: "Enter your country (default: Nigeria)",
+      value: "Nigeria", // Pre-set this field to Nigeria
+      readOnly: true, // Make it readonly for Nigeria unless supporting other countries
     },
     {
       label: "Notes",

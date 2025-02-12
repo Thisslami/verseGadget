@@ -1,4 +1,3 @@
-
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -30,6 +29,16 @@ export const addFeatureImage = createAsyncThunk(
   }
 );
 
+export const deleteFeatureImage = createAsyncThunk(
+  "/common/deleteFeatureImage",
+  async (id) => {
+    const response = await axios.delete(
+      `http://localhost:8050/api/common/features/delete/${id}`
+    );
+    return { id }; // Return the deleted image's id to remove from the list in state
+  }
+);
+
 const commonSlice = createSlice({
   name: "commonSlice",
   initialState,
@@ -46,6 +55,11 @@ const commonSlice = createSlice({
       .addCase(getFeatureImages.rejected, (state) => {
         state.isLoading = false;
         state.featureImageList = [];
+      })
+      .addCase(deleteFeatureImage.fulfilled, (state, action) => {
+        state.featureImageList = state.featureImageList.filter(
+          (image) => image._id !== action.payload.id
+        );
       });
   },
 });

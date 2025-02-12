@@ -8,7 +8,6 @@ function AddressCard({
   handleEditAddress,
   setCurrentSelectedAddress,
   selectedId,
-
 }) {
   return (
     <Card
@@ -17,7 +16,6 @@ function AddressCard({
           ? () => setCurrentSelectedAddress(addressInfo)
           : null
       }
-
       className={`cursor-pointer border-red-700 ${
         selectedId?._id === addressInfo?._id
           ? "border-red-900 border-[4px]"
@@ -25,10 +23,18 @@ function AddressCard({
       }`}
     >
       <CardContent className="grid p-4 gap-4">
-        <Label>Address: {addressInfo?.address}</Label>
+        {/* <Label>Address: {addressInfo?.address}</Label>
         <Label>City: {addressInfo?.city}</Label>
         <Label>pincode: {addressInfo?.pincode}</Label>
         <Label>Phone: {addressInfo?.phone}</Label>
+        <Label>Notes: {addressInfo?.notes}</Label> */}
+        <Label>Full Name: {addressInfo?.fullName}</Label>
+        <Label>Address: {addressInfo?.address}</Label>
+        <Label>LGA: {addressInfo?.lga}</Label>
+        <Label>City/State: {addressInfo?.state}</Label>
+        <Label>Phone: {addressInfo?.phone}</Label>
+        <Label>Postal Code: {addressInfo?.pincode}</Label>
+        <Label>Country: {addressInfo?.country}</Label>
         <Label>Notes: {addressInfo?.notes}</Label>
       </CardContent>
       <CardFooter className="p-3 flex justify-between">

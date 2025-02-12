@@ -3,6 +3,7 @@ const Order = require("../../models/order");
 const Cart = require("../../models/cart");
 const Product = require("../../models/products");
 
+
 const createOrder = async (req, res) => {
   try {
     const {
@@ -146,6 +147,8 @@ const capturePayment = async (req, res) => {
     });
   }
 };
+
+
 
 const getAllOrdersByUser = async (req, res) => {
   try {
