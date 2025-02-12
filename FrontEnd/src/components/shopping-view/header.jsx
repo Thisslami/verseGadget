@@ -185,6 +185,7 @@ import UserCartWrapper from "./cart-wrapper";
 import { useEffect, useState } from "react";
 import { fetchCartItems } from "@/store/shop/cart-slice";
 import { Label } from "../ui/label";
+import { motion } from "framer-motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "../ui/dialog";
 
 function MenuItems() {
@@ -289,7 +290,7 @@ function HeaderRightContent() {
       </Sheet>
 
       {/* User Dropdown */}
-      <DropdownMenu>
+      {/* <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="bg-black">
             <AvatarFallback className="bg-black text-white font-extrabold">
@@ -310,7 +311,40 @@ function HeaderRightContent() {
             Logout
           </DropdownMenuItem>
         </DropdownMenuContent>
-      </DropdownMenu>
+      </DropdownMenu> */}
+      <DropdownMenu>
+ <DropdownMenuTrigger asChild>
+ <Avatar className="bg-black">
+ <AvatarFallback className="bg-black text-white font-extrabold">
+ {user?.userName ? user?.userName[0].toUpperCase() : "U"} {/* Handle cases where user is not logged in */}
+ </AvatarFallback>
+ </Avatar>
+ </DropdownMenuTrigger>
+ <DropdownMenuContent side="right" className="w-56">
+{user?.userName ? ( // Conditionally render menu items
+ <>
+ <DropdownMenuLabel>Logged in as {user?.userName}</DropdownMenuLabel>
+ <DropdownMenuSeparator />
+ <DropdownMenuItem onClick={() => navigate("/shop/account")}>
+<User className="mr-2 h-4 w-4" />
+ Account
+ </DropdownMenuItem>
+ <DropdownMenuSeparator />
+<DropdownMenuItem onClick={() => setIsLogoutDialogOpen(true)}>
+<LogOut className="mr-2 h-4 w-4" />
+ Logout
+ </DropdownMenuItem>
+ </>
+ ) : (
+ <DropdownMenuItem onClick={() => navigate("/auth/login")}> {/* Navigate to login */}
+ <User className="mr-2 h-4 w-4" />
+ Login
+ </DropdownMenuItem>
+ )}
+ </DropdownMenuContent>
+ </DropdownMenu>
+
+      
 
       {/* Logout Confirmation Dialog */}
       <Dialog open={isLogoutDialogOpen} onOpenChange={setIsLogoutDialogOpen}>

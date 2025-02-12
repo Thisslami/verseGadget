@@ -38,14 +38,19 @@ import { AlignJustify, LogOut } from "lucide-react";
 import { logoutUser } from "@/store/auth-slice";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "../ui/dialog";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; 
+
 
 function AdminHeader({ setOpen }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
-
+  
   // Function to handle logout action
   function handleLogout() {
-    dispatch(logoutUser());
+    dispatch(logoutUser()).then(() => {
+      navigate("/shop/home"); // Redirect to login page
+    });
     setIsLogoutDialogOpen(false);
   }
 

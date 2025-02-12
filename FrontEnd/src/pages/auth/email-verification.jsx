@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { verifyEmail } from "../../store/auth-slice"; // Adjust the path if needed
+import { verifyEmail, checkAuth } from "../../store/auth-slice"; // Adjust the path if needed
 import { useToast } from "@/components/ui/use-toast"; // Adjust the path if needed
 
 const EmailVerificationPage = () => {
@@ -48,13 +48,15 @@ const EmailVerificationPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const verificationCode = code.join("");
-    console.log(`Verification Code submitted: ${verificationCode}`)
-
+  
     try {
-      // Dispatch the verifyEmail action
       await dispatch(verifyEmail({ code: verificationCode })).unwrap();
-      navigate("/");
       toast({ description: "Email verified successfully", variant: "success" });
+  
+      // Re-fetch auth state to ensure correct redirection
+      await dispatch(checkAuth());
+  
+      navigate("/auth/login"); // Ensure the correct redirection
     } catch (error) {
       toast({
         description: error.message || "Verification failed",
@@ -62,6 +64,8 @@ const EmailVerificationPage = () => {
       });
     }
   };
+  
+  
 
 
 
@@ -108,7 +112,7 @@ const EmailVerificationPage = () => {
             whileTap={{ scale: 0.95 }}
             type="submit"
             disabled={isLoading || code.some((digit) => !digit)}
-            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 disabled:opacity-50"
+            className="w-full bg-gradient-to-r from-blue to-indigo-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-50 disabled:opacity-50"
           >
             {isLoading ? "Verifying..." : "Verify Email"}
           </motion.button>

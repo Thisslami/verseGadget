@@ -1,73 +1,34 @@
-// const { MailtrapClient } = require("mailtrap");
-// const dotenv = require("dotenv");
-
-// dotenv.config();
-
-// // Retrieve Mailtrap token from the environment
-// const TOKEN = process.env.MAILTRAP_TOKEN;  // Should load from .env file
-// const ENDPOINT = process.env.MAILTRAP_ENDPOINT
-// // Initialize the Mailtrap client with the provided token
-// const client = new MailtrapClient({
-//   token: TOKEN,
-//   endpoint: ENDPOINT,
-  
-// });
-
-// console.log(TOKEN); // Add this line for debugging
-
-// // Define the sender's email information
-// const sender = {
-//   email: "hello@demomailtrap.com",
-//   name: "Lamidev testing the mailtrap",
-// };
-
-// // Define the recipients
-// const recipients = [
-//   {
-//     email: "akinyemioluwaseunjunior@gmail.com", // The recipient's email address
-//   }
-// ];
-
-// // Send the email with the defined parameters
-// client
-//   .send({
-//     from: sender,
-//     to: recipients,
-//     subject: "You are awesome!",  // Subject of the email
-//     text: "Congrats for sending test email with Mailtrap!",  // Email body content
-//     category: "Integration Test",  // You can add any category for better tracking
-//   })
-//   .then(response => {
-//     console.log('Email sent successfully:', response);
-//   })
-//   .catch(error => {
-//     console.error('Failed to send email:', error);
-//   });
 
 
+require("dotenv").config();
 const { MailtrapClient } = require("mailtrap");
 
-// Define the MailtrapClient with the endpoint and token directly
+// Load environment variables
+const MAILTRAP_TOKEN = process.env.MAILTRAP_TOKEN;
+const MAILTRAP_ENDPOINT = process.env.MAILTRAP_ENDPOINT;
+
+// Ensure credentials exist before initializing the client
+if (!MAILTRAP_TOKEN || !MAILTRAP_ENDPOINT) {
+  throw new Error("Missing Mailtrap configuration in environment variables.");
+}
+
+// Initialize Mailtrap client securely
 const mailtrapClient = new MailtrapClient({
-  endpoint: 'https://send.api.mailtrap.io/api/send',  // Directly specify the endpoint URL
-  token: '9dd76875924511bb73ad83a536dc68d1'  // Directly specify the token
+  endpoint: MAILTRAP_ENDPOINT,
+  token: MAILTRAP_TOKEN
 });
 
-// Logging the token and endpoint correctly
-console.log('Mailtrap token:', '9dd76875924511bb73ad83a536dc68d1');
-console.log('Mailtrap endpoint:', 'https://send.api.mailtrap.io/api/send');
+// Log safely without exposing secrets
+// console.log("Mailtrap endpoint:", MAILTRAP_ENDPOINT);
+// console.log("Mailtrap Token:", MAILTRAP_TOKEN);
 
-// Define the sender
+// Define the sender details
 const sender = {
   email: "hello@demomailtrap.com",
   name: "Mailtrap Test"
 };
 
-
-
-
-
-// Export the client and data
+// Export the client and sender details
 module.exports = {
   mailtrapClient,
   sender

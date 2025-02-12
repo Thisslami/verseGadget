@@ -5,6 +5,8 @@ import axios from "axios";
 const initialState = {
   orderList: [],
   orderDetails: null,
+  totalOrders: 0,
+  isLoading: false,
 };
 
 export const getAllOrdersForAdmin = createAsyncThunk(
@@ -43,6 +45,28 @@ export const updateOrderStatus = createAsyncThunk(
   }
 );
 
+// Fetch total number of orders
+export const getTotalNumberOfOrders = createAsyncThunk(
+  "/order/getTotalNumberOfOrders",
+  async () => {
+    const response = await axios.get(
+      `http://localhost:8050/api/admin/orders/total`
+    );
+    return response.data;
+  }
+);
+
+// Delete an order
+export const deleteOrder = createAsyncThunk(
+  "/order/deleteOrder",
+  async (id) => {
+    const response = await axios.delete(
+      `http://localhost:8050/api/admin/orders/delete/${id}`
+    );
+    return response.data;
+  }
+);
+
 const adminOrderSlice = createSlice({
   name: "adminOrderSlice",
   initialState,
@@ -76,7 +100,23 @@ const adminOrderSlice = createSlice({
       .addCase(getOrderDetailsForAdmin.rejected, (state) => {
         state.isLoading = false;
         state.orderDetails = null;
+      })
+      .addCase(getTotalNumberOfOrders.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getTotalNumberOfOrders.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.totalOrders = action.payload.totalOrders;
+      })
+      .addCase(getTotalNumberOfOrders.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(deleteOrder.fulfilled, (state, action) => {
+        state.orderList = state.orderList.filter(
+          (order) => order._id !== action.meta.arg
+        );
       });
+
   },
 });
 

@@ -1,3 +1,5 @@
+
+
 // import { Input } from "../ui/input";
 // import { Label } from "../ui/label";
 // import {
@@ -9,7 +11,8 @@
 // } from "../ui/select";
 // import { Textarea } from "../ui/textarea";
 // import { Button } from "../ui/button";
-
+// import { Lock, Mail, User, Eye, EyeOff } from "lucide-react"; // Import the icons
+// import { useState } from "react";
 // function CommonForm({
 //   formControls,
 //   formData,
@@ -18,29 +21,59 @@
 //   buttonText,
 //   isBtnDisabled,
 // }) {
+//   const [showPassword, setShowPassword] = useState(false); // State for password visibility
+
+//   function togglePasswordVisibility() {
+//     setShowPassword((prev) => !prev);
+//   }
+
 //   function renderInputsByComponentType(getControlItem) {
 //     let element = null;
 //     const value = formData[getControlItem.name] || "";
 
+//     let Icon = null;
+//     if (getControlItem.name === "userName") Icon = User;
+//     else if (getControlItem.name === "email") Icon = Mail;
+//     else if (getControlItem.name === "password") Icon = Lock;
+
 //     switch (getControlItem.componentType) {
 //       case "input":
 //         element = (
-//           <Input
-//             name={getControlItem.name}
-//             placeholder={getControlItem.placeholder}
-//             id={getControlItem.name}
-//             type={getControlItem.type}
-//             value={value}
-//             onChange={(event) =>
-//               setFormData({
-//                 ...formData,
-//                 [getControlItem.name]: event.target.value,
-//               })
-//             }
-//           />
+//           <div className="flex items-center gap-2 relative">
+//             {Icon && <Icon className="text-black" />}
+//             <Input
+//               name={getControlItem.name}
+//               placeholder={getControlItem.placeholder}
+//               id={getControlItem.name}
+//               type={
+//                 getControlItem.name === "password" && showPassword
+//                   ? "text"
+//                   : getControlItem.type
+//               }
+//               value={value}
+//               onChange={(event) =>
+//                 setFormData({
+//                   ...formData,
+//                   [getControlItem.name]: event.target.value,
+//                 })
+//               }
+              
+          
+//             />
+//             {/* Password toggle button */}
+//             {getControlItem.name === "password" && (
+//               <button
+//                 type="button"
+//                 onClick={togglePasswordVisibility}
+//                 className="absolute right-3 text-black"
+//               >
+//                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+//               </button>
+//             )}
+//           </div>
 //         );
-
 //         break;
+
 //       case "select":
 //         element = (
 //           <Select
@@ -66,8 +99,8 @@
 //             </SelectContent>
 //           </Select>
 //         );
-
 //         break;
+
 //       case "textarea":
 //         element = (
 //           <Textarea
@@ -83,7 +116,6 @@
 //             }
 //           />
 //         );
-
 //         break;
 
 //       default:
@@ -125,7 +157,9 @@
 //   );
 // }
 
+
 // export default CommonForm;
+
 
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -138,36 +172,43 @@ import {
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { Lock, Mail, User } from "lucide-react"; // Import the icons
+import { Lock, Mail, User, Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 
 function CommonForm({
   formControls,
   formData,
   setFormData,
-  onSubmit, 
+  onSubmit,
   buttonText,
   isBtnDisabled,
 }) {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   function renderInputsByComponentType(getControlItem) {
     let element = null;
     const value = formData[getControlItem.name] || "";
-
-    // Determine which icon to use for each field
+    
     let Icon = null;
     if (getControlItem.name === "userName") Icon = User;
     else if (getControlItem.name === "email") Icon = Mail;
-    else if (getControlItem.name === "password") Icon = Lock;
+    else if (getControlItem.name === "password" || getControlItem.name === "confirmPassword") Icon = Lock;
+
+    const isPasswordField = getControlItem.name === "password";
+    const isConfirmPasswordField = getControlItem.name === "confirmPassword";
+    const showField = isPasswordField ? showPassword : showConfirmPassword;
 
     switch (getControlItem.componentType) {
       case "input":
         element = (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 relative">
             {Icon && <Icon className="text-black" />}
             <Input
               name={getControlItem.name}
               placeholder={getControlItem.placeholder}
               id={getControlItem.name}
-              type={getControlItem.type}
+              type={showField ? "text" : getControlItem.type}
               value={value}
               onChange={(event) =>
                 setFormData({
@@ -176,9 +217,23 @@ function CommonForm({
                 })
               }
             />
+            {/* Password toggle button */}
+            {(isPasswordField || isConfirmPasswordField) && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (isPasswordField) setShowPassword((prev) => !prev);
+                  if (isConfirmPasswordField) setShowConfirmPassword((prev) => !prev);
+                }}
+                className="absolute right-3 text-black"
+              >
+                {showField ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            )}
           </div>
         );
         break;
+
       case "select":
         element = (
           <Select
@@ -205,6 +260,7 @@ function CommonForm({
           </Select>
         );
         break;
+
       case "textarea":
         element = (
           <Textarea

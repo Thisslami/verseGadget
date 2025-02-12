@@ -82,5 +82,56 @@ const getOrderDetailsForAdmin = async (req, res) => {
     }
   };
 
-module.exports ={ getAllOrdersOfAllUsers, getOrderDetailsForAdmin, updateOrderStatus };
+// Get total number of orders
+const getTotalNumberOfOrders = async (req, res) => {
+  try {
+    const totalOrders = await Order.countDocuments(); // Count total orders
 
+    res.status(200).json({
+      success: true,
+      totalOrders,
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      success: false,
+      message: "Some error occurred!",
+    });
+  }
+};
+
+// Delete an order
+const deleteOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const order = await Order.findById(id);
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found!",
+      });
+    }
+
+    await Order.findByIdAndDelete(id);
+
+    res.status(200).json({
+      success: true,
+      message: "Order deleted successfully!",
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      success: false,
+      message: "Some error occurred!",
+    });
+  }
+};
+
+module.exports = {
+  getAllOrdersOfAllUsers,
+  getOrderDetailsForAdmin,
+  updateOrderStatus,
+  getTotalNumberOfOrders,
+  deleteOrder,
+};

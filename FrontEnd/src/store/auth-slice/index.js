@@ -37,11 +37,29 @@ export const verifyEmail = createAsyncThunk(
   }
 );
 
+// export const loginUser = createAsyncThunk(
+//   "auth/login",
+//   async (formData, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.post(`${API_URL}/login`, formData);
+//       return response.data;
+//     } catch (error) {
+//       return rejectWithValue(error.response?.data?.message || "Error logging in");
+//     }
+//   }
+// );
+
 export const loginUser = createAsyncThunk(
   "auth/login",
-  async (formData, { rejectWithValue }) => {
+  async (formData, { rejectWithValue, dispatch }) => {
     try {
       const response = await axios.post(`${API_URL}/login`, formData);
+      
+      if (response.data.token) {
+        sessionStorage.setItem("token", response.data.token); // Store token
+        dispatch(setUser(response.data.user)); // Set user
+      }
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Error logging in");
@@ -154,9 +172,11 @@ const authSlice = createSlice({
       .addCase(verifyEmail.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(verifyEmail.fulfilled, (state) => {
+      .addCase(verifyEmail.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.user = { ...state.user, isVerified: true }; // Ensure user is marked as verified
       })
+      
       .addCase(verifyEmail.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
@@ -168,7 +188,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.user;
-        state.isAuthenticated = action.payload.success;
+        state.isAuthenticated = true;
         sessionStorage.setItem("token", action.payload.token);
       })
       
@@ -184,6 +204,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isAuthenticated = false;
         state.user = null;
+        sessionStorage.removeItem("token"); 
+        
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.isLoading = false;
