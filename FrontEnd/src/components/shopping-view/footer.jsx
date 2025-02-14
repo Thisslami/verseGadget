@@ -41,13 +41,15 @@ const Footer = () => {
                 </li>
                 <li className="flex items-center justify-center md:justify-start">
                   <FaPhone className="w-5 h-5 mr-2 text-white" />
-                  <a href="tel:+2347056501913" className="hover:text-gray-200 transition">
-                    +234 70 5650 1913
+                  <a href="tel:+2347011294708" className="hover:text-gray-200 transition">
+                  07011294708
+                  <br />
+                  08088754119
                   </a>
                 </li>
                 <li className="flex items-center justify-center md:justify-start">
                   <FaMapMarkerAlt className="w-5 h-5 mr-2 text-white" />
-                  <span className="text-gray-300">123 Tech Street, Lagos, Nigeria</span>
+                  <span className="text-gray-300">First floor Shop B2 No 7, Olayeni street beside cellphone city off medical road computer village ikeja</span>
                 </li>
               </ul>
             </CardContent>

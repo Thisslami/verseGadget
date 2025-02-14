@@ -6,7 +6,7 @@ const generateTokenAndSetCookie = (res, userId) => {
     expiresIn: "7d",
     
   });
-  // console.log("Generated Token:", token);
+
 
   res.cookie("token", token, {
     httpOnly: true,
@@ -17,6 +17,4 @@ const generateTokenAndSetCookie = (res, userId) => {
 
   return token;
 };
-
-// Export the function using CommonJS syntax
 module.exports = { generateTokenAndSetCookie };

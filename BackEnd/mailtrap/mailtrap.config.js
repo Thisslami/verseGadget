@@ -18,9 +18,7 @@ const mailtrapClient = new MailtrapClient({
   token: MAILTRAP_TOKEN
 });
 
-// Log safely without exposing secrets
-// console.log("Mailtrap endpoint:", MAILTRAP_ENDPOINT);
-// console.log("Mailtrap Token:", MAILTRAP_TOKEN);
+
 
 // Define the sender details
 const sender = {
