@@ -4,8 +4,8 @@ import { Lock, Eye, EyeOff } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
-import CommonForm from "../../components/common/Form";
 import { resetPassword } from "../../store/auth-slice/index";
+import CommonForm from "@/components/common/form";
 
 const ResetPasswordPage = () => {
   const [formData, setFormData] = useState({
