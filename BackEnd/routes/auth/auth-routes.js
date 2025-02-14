@@ -11,7 +11,6 @@ const {
   
   checkAuth,
 } = require("../../controllers/auth/auth-controller");
-// const verifyToken = require("../../middleware/verify-token");
 
 
 const router = express.Router();
@@ -24,7 +23,6 @@ router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:token", resetPassword);
 router.get("/check-auth",
    authMiddleware,
-  // verifyToken,
     checkAuth);
 
 module.exports = router;

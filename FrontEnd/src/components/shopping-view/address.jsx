@@ -36,52 +36,6 @@ function Address({setCurrentSelectedAddress , selectedId}) {
   const { addressList } = useSelector((state) => state.shopAddress);
   const { toast } = useToast();
 
-  // function handleManageAddress(event) {
-  //   event.preventDefault();
-
-  //   if (addressList.length >= 3 && currentEditedId === null) {
-  //     setFormData(initialAddressFormData);
-  //     toast({
-  //       title: "You can add max 3 addresses",
-  //       variant: "destructive",
-  //     });
-
-  //     return;
-  //   }
-
-  //   currentEditedId !== null
-  //     ? dispatch(
-  //         editAddress({
-  //           userId: user?.id,
-  //           addressId: currentEditedId,
-  //           formData,
-  //         })
-  //       ).then((data) => {
-  //         if (data?.payload?.success) {
-  //           dispatch(fetchAllAddresses(user?.id));
-  //           setCurrentEditedId(null);
-  //           setFormData(initialAddressFormData);
-  //           toast({
-  //             title: "Address updated successfully",
-  //           });
-  //         }
-  //       })
-  //     : dispatch(
-  //         addNewAddress({
-  //           ...formData,
-  //           userId: user?.id,
-  //         })
-  //       ).then((data) => {
-  //         if (data?.payload?.success) {
-  //           dispatch(fetchAllAddresses(user?.id));
-  //           setFormData(initialAddressFormData);
-  //           toast({
-  //             title: "Address added successfully",
-  //           });
-  //         }
-  //       });
-  // }
-
   function handleManageAddress(event) {
     event.preventDefault();
   

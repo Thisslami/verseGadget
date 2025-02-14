@@ -6,10 +6,10 @@ function AdminProductTile({
   setFormData,
   setOpenCreateProductsDialog,
   setCurrentEditedId,
-  handleDelete
+  handleDelete,
 }) {
   return (
-    <Card className="w-full max-w-sm mx-auto">
+    <Card className="w-full max-w-sm mx-auto transform transition duration-300 hover:scale-105 hover:bg-gray-200 shadow hover:shadow-lg rounded-lg">
       <div>
         <div className="relative">
           <img
@@ -38,6 +38,7 @@ function AdminProductTile({
             onClick={() => {
               setOpenCreateProductsDialog(true);
               setCurrentEditedId(product?._id);
+              console.log("Editing product data:", product);
               setFormData(product);
             }}
           >
