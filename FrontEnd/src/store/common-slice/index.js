@@ -10,7 +10,7 @@ export const getFeatureImages = createAsyncThunk(
   "/common/getFeatureImages",
   async () => {
     const response = await axios.get(
-      `http://localhost:8050/api/common/features/get`
+      `${import.meta.env.VITE_API_BASE_URL}/admin/common/features/get`
     );
 
     return response.data;
@@ -21,7 +21,7 @@ export const addFeatureImage = createAsyncThunk(
   "/common/addFeatureImage",
   async (image) => {
     const response = await axios.post(
-      `http://localhost:8050/api/common/features/add`,
+      `${import.meta.env.VITE_API_BASE_URL}/admin/common/features/add`,
       { image }
     );
 
@@ -33,7 +33,7 @@ export const deleteFeatureImage = createAsyncThunk(
   "/common/deleteFeatureImage",
   async (id) => {
     const response = await axios.delete(
-      `http://localhost:8050/api/common/features/delete/${id}`
+      `${import.meta.env.VITE_API_BASE_URL}/admin/common/features/delete/${id}`
     );
     return { id }; // Return the deleted image's id to remove from the list in state
   }

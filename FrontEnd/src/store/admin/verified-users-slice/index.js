@@ -1,17 +1,18 @@
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:8050/api/admin"; // Make sure this API is accessible
+ 
 
 export const fetchVerifiedUserCount = createAsyncThunk(
   "admin/fetchVerifiedUserCount",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/verified-users`);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/admin/verified-users`);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to fetch verified users count");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch verified users count"
+      );
     }
   }
 );
