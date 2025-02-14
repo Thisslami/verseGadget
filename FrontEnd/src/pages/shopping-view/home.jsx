@@ -170,7 +170,7 @@ function ShoppingHome() {
   }
 
   useEffect(() => {
-    console.log("Product Details Updated:", productDetails);
+  
     if (productDetails !== null) setOpenDetailsDialog(true);
   }, [productDetails]);
 
