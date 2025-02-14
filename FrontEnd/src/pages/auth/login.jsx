@@ -44,11 +44,19 @@ function AuthLogin() {
   }
 
   // Redirect when authenticated
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     navigate(user?.role === "admin" ? "/admin/dashboard" : "/shop/home");
+  //   }
+  // }, [isAuthenticated, user, navigate]);
+
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate(user?.role === "admin" ? "/admin/dashboard" : "/shop/home");
+    console.log("Auth state changed:", isAuthenticated, user);
+    if (isAuthenticated && user) {
+      navigate(user.role === "admin" ? "/admin/dashboard" : "/shop/home");
     }
   }, [isAuthenticated, user, navigate]);
+  
 
   return (
     <motion.div
