@@ -1,5 +1,3 @@
-// 
-
 
 import ProductImageUpload from "@/components/admin-view/image-upload";
 import CommonForm from "@/components/common/form";
@@ -53,25 +51,39 @@ function AdminProducts() {
 
   function onSubmit(event) {
     event.preventDefault();
-    const action = currentEditedId !== null ? editProduct : addNewProduct;
-    const payload = {
-      id: currentEditedId,
-      ...formData,
-      image: uploadedImageUrl,
-    };
 
-    dispatch(action(payload)).then((data) => {
-      if (data?.payload?.success) {
-        dispatch(fetchAllProducts());
-        setOpenCreateProductsDialog(false);
-        setFormData(initialFormData);
-        setImageFile(null);
-        setCurrentEditedId(null);
-        toast({
-          title: `Product ${currentEditedId ? "updated" : "added"} successfully`,
+    currentEditedId !== null
+      ? dispatch(
+          editProduct({
+            id: currentEditedId,
+            formData,
+          })
+        ).then((data) => {
+          console.log(data, "edit");
+
+          if (data?.payload?.success) {
+            dispatch(fetchAllProducts());
+            setFormData(initialFormData);
+            setOpenCreateProductsDialog(false);
+            setCurrentEditedId(null);
+          }
+        })
+      : dispatch(
+          addNewProduct({
+            ...formData,
+            image: uploadedImageUrl,
+          })
+        ).then((data) => {
+          if (data?.payload?.success) {
+            dispatch(fetchAllProducts());
+            setOpenCreateProductsDialog(false);
+            setImageFile(null);
+            setFormData(initialFormData);
+            toast({
+              title: "Product add successfully",
+            });
+          }
         });
-      }
-    });
   }
 
   function handleDelete(productId) {
