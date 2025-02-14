@@ -31,7 +31,7 @@ mongoose
     // Middleware setup
     app.use(
       cors({
-        origin: ["http://localhost:5173", "https://versegadget-server.onrender.com"],
+        origin: ["http://localhost:5173", "https://versegadget.onrender.com"],
 
         // Update this to match your front-end URL
         methods: ["GET", "POST", "PUT", "DELETE"],
