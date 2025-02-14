@@ -15,7 +15,7 @@ export const registerUser = createAsyncThunk(
   "auth/register",
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin/register`, formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/register`, formData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Error registering user");
@@ -27,7 +27,7 @@ export const verifyEmail = createAsyncThunk(
   "auth/verify-email",
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin/verify-email`, formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/verify-email`, formData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Error verifying email");
@@ -39,7 +39,7 @@ export const loginUser = createAsyncThunk(
   "auth/login",
   async (formData, { rejectWithValue, dispatch }) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin/login`, formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/login`, formData);
       
       if (response.data.token) {
         sessionStorage.setItem("token", response.data.token); // Store token
@@ -57,7 +57,7 @@ export const logoutUser = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin/logout`);
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/logout`);
       return {};
     } catch (error) {
       return rejectWithValue("Error logging out");
@@ -69,7 +69,7 @@ export const forgotPassword = createAsyncThunk(
   "auth/forgot-password",
   async ({ email }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin/forgot-password`, { email });
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/forgot-password`, { email });
       return response.data;
     } catch (error) {
       console.log("Error response:", error.response?.data); // Debug log - error response
@@ -85,7 +85,7 @@ export const resetPassword = createAsyncThunk(
   "auth/reset-password",
   async ({ token, formData }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin/reset-password/${token}`, formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/reset-password/${token}`, formData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Error resetting password");
@@ -101,7 +101,7 @@ export const checkAuth = createAsyncThunk(
     if (token) {
       try {
         // Optionally, you can validate the token by making an API call
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/admin/check-auth`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/auth/check-auth`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         dispatch(setUser(response.data.user));  // Set the user in the state if token is valid
