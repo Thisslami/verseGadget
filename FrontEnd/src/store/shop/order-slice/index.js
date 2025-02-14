@@ -14,7 +14,7 @@ export const createNewOrder = createAsyncThunk(
   async (orderData) => {
     console.log("Order Data:", orderData); // Log the orderData to verify its contents
     const response = await axios.post(
-      "http://localhost:8050/api/shop/order/create",
+      `${import.meta.env.VITE_API_BASE_URL}/shop/order/create`,
       orderData
     );
 
@@ -27,7 +27,7 @@ export const capturePayment = createAsyncThunk(
   async ({ reference, orderId }) => {
     console.log("Payload sent to capture payment:", { reference, orderId });
     const response = await axios.post(
-      "http://localhost:8050/api/shop/order/capture",
+      `${import.meta.env.VITE_API_BASE_URL}/shop/order/capture`,
       {
         reference,
         orderId,
@@ -41,7 +41,7 @@ export const getAllOrdersByUserId = createAsyncThunk(
   "/order/getAllOrdersByUserId",
   async (userId) => {
     const response = await axios.get(
-      `http://localhost:8050/api/shop/order/list/${userId}`
+      `${import.meta.env.VITE_API_BASE_URL}/shop/order/list/${userId}`
     );
 
     return response.data;
@@ -52,7 +52,7 @@ export const getOrderDetails = createAsyncThunk(
   "/order/getOrderDetails",
   async (id) => {
     const response = await axios.get(
-      `http://localhost:8050/api/shop/order/details/${id}`
+      `${import.meta.env.VITE_API_BASE_URL}/shop/order/details/${id}`
     );
 
     return response.data;
