@@ -10,7 +10,7 @@ export const getFeatureImages = createAsyncThunk(
   "/common/getFeatureImages",
   async () => {
     const response = await axios.get(
-      `${import.meta.env.VITE_API_BASE_URL}/admin/common/features/get`
+      `${import.meta.env.VITE_API_BASE_URL}/common/features/get`
     );
 
     return response.data;
@@ -21,7 +21,7 @@ export const addFeatureImage = createAsyncThunk(
   "/common/addFeatureImage",
   async (image) => {
     const response = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/admin/common/features/add`,
+      `${import.meta.env.VITE_API_BASE_URL}/common/features/add`,
       { image }
     );
 
@@ -33,7 +33,7 @@ export const deleteFeatureImage = createAsyncThunk(
   "/common/deleteFeatureImage",
   async (id) => {
     const response = await axios.delete(
-      `${import.meta.env.VITE_API_BASE_URL}/admin/common/features/delete/${id}`
+      `${import.meta.env.VITE_API_BASE_URL}/common/features/delete/${id}`
     );
     return { id }; // Return the deleted image's id to remove from the list in state
   }
@@ -55,6 +55,7 @@ const commonSlice = createSlice({
       .addCase(getFeatureImages.rejected, (state) => {
         state.isLoading = false;
         state.featureImageList = [];
+        console.error("Failed to fetch feature images:", action.error.message);
       })
       .addCase(deleteFeatureImage.fulfilled, (state, action) => {
         state.featureImageList = state.featureImageList.filter(
