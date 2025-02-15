@@ -23,6 +23,9 @@ const createOrder = async (req, res) => {
 
      // Use environment variable for callback URL
      const callbackUrl = process.env.CLIENT_URL + '/shop/paystack-return';
+    //  const callbackUrl = `${process.env.CLIENT_URL.replace(/\/$/, '')}/shop/paystack-return`;
+     console.log(`Callback URL: ${callbackUrl}`);
+
 
     // Prepare data for Paystack payment initialization
     const paystackData = {
@@ -206,4 +209,56 @@ const getOrderDetails = async (req, res) => {
   }
 };
 
-module.exports = { createOrder, capturePayment, getAllOrdersByUser, getOrderDetails };
+
+const handlePaystackReturn = async (req, res) => {
+  try {
+    const { trxref, reference } = req.query;
+
+    console.log("Paystack Callback Received:", { trxref, reference });
+
+    // Verify the Paystack transaction
+    const paymentVerification = await verifyTransaction(reference);
+
+    if (!paymentVerification.status || paymentVerification.data.status !== "success") {
+      return res.status(400).json({
+        success: false,
+        message: "Payment verification failed",
+      });
+    }
+
+    // Find the order
+    const order = await Order.findOne({ paymentId: reference });
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    // Update order payment status
+    order.paymentStatus = "paid";
+    order.orderStatus = "confirmed";
+    await order.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Paystack payment callback received successfully",
+      order,
+    });
+  } catch (error) {
+    console.error("Error handling Paystack callback:", error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while handling Paystack callback",
+    });
+  }
+};
+
+module.exports = {
+  createOrder,
+  capturePayment,
+  getAllOrdersByUser,
+  getOrderDetails,
+  handlePaystackReturn, // Add this
+};
