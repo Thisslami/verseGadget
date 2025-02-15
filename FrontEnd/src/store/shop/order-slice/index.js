@@ -6,7 +6,7 @@ const initialState = {
   isLoading: false,
   orderId: null,
   orderList: [],
-  orderDetails: null
+  orderDetails: null,
 };
 
 export const createNewOrder = createAsyncThunk(
@@ -59,6 +59,16 @@ export const getOrderDetails = createAsyncThunk(
   }
 );
 
+export const handlePaystackReturn = createAsyncThunk(
+  "/order/handlePaystackReturn",
+  async ({ reference }) => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_BASE_URL}/shop/order/paystack-return?reference=${reference}`
+    );
+    return response.data;
+  }
+);
+
 
 const shoppingOrderSlice = createSlice({
   name: "shoppingOrderSlice",
@@ -87,7 +97,8 @@ state.orderDetails = null;
         state.isLoading = false;
         state.approvalURL = null;
         state.orderId = null;
-      }) // <-- Add semicolon here
+        state.error = action.error.message;
+      }) 
       .addCase(getAllOrdersByUserId.pending, (state) => {
         state.isLoading = true;
       })
@@ -109,6 +120,11 @@ state.orderDetails = null;
       .addCase(getOrderDetails.rejected, (state) => {
         state.isLoading = false;
         state.orderDetails = null;
+      })
+      .addCase(handlePaystackReturn.fulfilled, (state, action) => {
+        state.paymentStatus = action.payload.message;
+        state.paymentSuccess = true;
+        state.orderDetails = action.payload.order;
       });
   },
 });
