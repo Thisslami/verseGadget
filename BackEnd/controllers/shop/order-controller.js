@@ -20,12 +20,16 @@ const createOrder = async (req, res) => {
       cartId
     } = req.body;
 
+
+     // Use environment variable for callback URL
+     const callbackUrl = process.env.CLIENT_URL + '/shop/paystack-return';
+
     // Prepare data for Paystack payment initialization
     const paystackData = {
       email: payerId, // User email
       amount: totalAmount * 100, // Convert to kobo or cents
       currency: "NGN", // Update if using NGN or other currencies
-      callback_url: "http://localhost:5173/shop/paystack-return", // Redirect URL
+      callback_url: callbackUrl, // Redirect URL
       metadata: {
         userId,
         cartItems, // Optional: send cart details for reference
