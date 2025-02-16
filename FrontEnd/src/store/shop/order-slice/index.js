@@ -7,7 +7,7 @@ const initialState = {
   orderId: null,
   orderList: [],
   orderDetails: null,
-};
+}
 
 export const createNewOrder = createAsyncThunk(
   "/order/createNewOrder",

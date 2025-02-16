@@ -232,25 +232,23 @@ const authMiddleware = (req, res, next) => {
 };
 
 
-// Check Auth
 const checkAuth = async (req, res) => {
   try {
     const user = await User.findById(req.userId).select("-password");
-if (!user) {
-  return res.status(400).json({ success: false, message: "User not found" });
-}
+    if (!user) {
+      return res.status(400).json({ success: false, message: "User not found" });
+    }
 
-const userData = user.toObject();
-userData.id = userData._id;
-delete userData._id;
+    const userData = user.toObject();
+    userData.id = userData._id;
+    delete userData._id;
 
-res.status(200).json({ success: true, user: userData });
-
+    res.status(200).json({ success: true, user: userData });
   } catch (error) {
-    res.status(500).json({ success: false, message: "An error occurred" });
+    console.error("Error in checkAuth:", error); // Log the error
+    res.status(500).json({ success: false, message: "An error occurred", error: error.message });
   }
 };
-
 
 
 module.exports = {
