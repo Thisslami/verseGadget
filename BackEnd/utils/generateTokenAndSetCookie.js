@@ -1,4 +1,4 @@
-// const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 // const generateTokenAndSetCookie = (res, userId) => {
  
@@ -35,3 +35,5 @@ const generateTokenAndSetCookie = (res, userId) => {
 
   return token;
 };
+
+module.exports = {generateTokenAndSetCookie};
