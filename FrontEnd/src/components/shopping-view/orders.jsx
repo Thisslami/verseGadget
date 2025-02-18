@@ -14,6 +14,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOrdersByUserId , getOrderDetails, resetOrderDetails} from "@/store/shop/order-slice";
 import { Badge } from "../ui/badge";
+import { motion } from 'framer-motion';
 function ShoppingOrders() {
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
 
