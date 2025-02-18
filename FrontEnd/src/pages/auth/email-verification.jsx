@@ -51,7 +51,7 @@ const EmailVerificationPage = () => {
   
     try {
       await dispatch(verifyEmail({ code: verificationCode })).unwrap();
-      toast({ description: "Email verified successfully", variant: "success" });
+      toast({ description: "Email verified successfully, login to continue", variant: "success" });
   
       // Re-fetch auth state to ensure correct redirection
       await dispatch(checkAuth());
@@ -64,17 +64,14 @@ const EmailVerificationPage = () => {
       });
     }
   };
-  
-  
-
-
 
   // Auto submit when all fields are filled
   useEffect(() => {
-    if (code.every((digit) => digit !== "")) {
+    if (code.every((digit) => digit !== "") && !isLoading) {
       handleSubmit(new Event("submit"));
     }
-  }, [code]);
+  }, [code, isLoading]); // Added isLoading to prevent firing while loading
+  
 
   return (
     <div className="max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden">
@@ -84,7 +81,7 @@ const EmailVerificationPage = () => {
         transition={{ duration: 0.5 }}
         className="bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-2xl p-8 w-full max-w-md"
       >
-        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text">
+        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-black to-indigo-400 text-transparent bg-clip-text">
           Verify Your Email
         </h2>
         <p className="text-center text-gray-300 mb-6">
