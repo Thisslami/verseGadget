@@ -93,27 +93,6 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
-// export const checkAuth = createAsyncThunk(
-//   "auth/check-auth",
-//   async (_, { rejectWithValue, dispatch }) => {
-//     const token = sessionStorage.getItem("token");  // Check sessionStorage for the token
-
-//     if (token) {
-//       try {
-//         // Optionally, you can validate the token by making an API call
-//         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/auth/check-auth`, {
-//           headers: { Authorization: `Bearer ${token}` },
-//         });
-//         dispatch(setUser(response.data.user));  // Set the user in the state if token is valid
-//         return response.data;  // Proceed as authenticated
-//       } catch (error) {
-//         return rejectWithValue("Token validation failed");
-//       }
-//     }
-
-//     return rejectWithValue(null);  // No valid token, mark as unauthenticated
-//   }
-// );
 export const checkAuth = createAsyncThunk(
   "auth/check-auth",
   async (_, { rejectWithValue, dispatch }) => {
