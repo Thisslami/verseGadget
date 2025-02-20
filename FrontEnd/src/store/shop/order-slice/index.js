@@ -12,7 +12,7 @@ const initialState = {
 export const createNewOrder = createAsyncThunk(
   "/order/createNewOrder",
   async (orderData) => {
-    console.log("Order Data:", orderData); // Log the orderData to verify its contents
+    // console.log("Order Data:", orderData); // Log the orderData to verify its contents
     const response = await axios.post(
       `${import.meta.env.VITE_API_BASE_URL}/shop/order/create`,
       orderData
@@ -25,7 +25,7 @@ export const createNewOrder = createAsyncThunk(
 export const capturePayment = createAsyncThunk(
   "/order/capturePayment",
   async ({ reference, orderId }) => {
-    console.log("Payload sent to capture payment:", { reference, orderId });
+    // console.log("Payload sent to capture payment:", { reference, orderId });
     const response = await axios.post(
       `${import.meta.env.VITE_API_BASE_URL}/shop/order/capture`,
       {
@@ -91,7 +91,7 @@ state.orderDetails = null;
           "currentOrderId",
           JSON.stringify(action.payload.orderId)
         );
-        console.log("Order ID saved to sessionStorage:", action.payload.orderId);
+        // console.log("Order ID saved to sessionStorage:", action.payload.orderId);
       })
       .addCase(createNewOrder.rejected, (state) => {
         state.isLoading = false;
