@@ -86,6 +86,10 @@ const verifyEmail = async (req, res) => {
     await user.save();
 
     await sendWelcomeEmail(user.email, user.userName);
+
+      // Clear any existing tokens before redirecting to login
+      res.clearCookie("token");
+      
     res
       .status(200)
       .json({ success: true, message: "Email verified successfully" });
