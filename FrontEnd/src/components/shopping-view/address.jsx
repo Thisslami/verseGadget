@@ -7,15 +7,6 @@ import { addNewAddress, fetchAllAddresses, deleteAddress, editAddress } from "@/
 import AddressCard from "./address-card";
 import { useToast } from "../ui/use-toast";
 
-
-// const initialAddressFormData = {
-//   address: "",
-//   city: "",
-//   phone: "",
-//   pincode: "",
-//   notes: "",
-// };
-
 const initialAddressFormData = {
   fullName: "",
   address: "",
@@ -99,26 +90,32 @@ function Address({setCurrentSelectedAddress , selectedId}) {
   function handleEditAddress(getCuurentAddress) {
     setCurrentEditedId(getCuurentAddress?._id);
     setFormData({
-      ...formData,
-      address: getCuurentAddress?.address,
-      city: getCuurentAddress?.city,
-      phone: getCuurentAddress?.phone,
-      pincode: getCuurentAddress?.pincode,
-      notes: getCuurentAddress?.notes,
+      fullName: getCuurentAddress?.fullName || "",
+      address: getCuurentAddress?.address || "",
+      lga: getCuurentAddress?.lga || "",
+      state: getCuurentAddress?.state || "",
+      phone: getCuurentAddress?.phone || "",
+      pincode: getCuurentAddress?.pincode || "",
+      country: getCuurentAddress?.country || "Nigeria", // Default to Nigeria
+      notes: getCuurentAddress?.notes || "",
     });
   }
+  
 
-  function isFormValid() {
-    return Object.keys(formData)
-      .map((key) => formData[key].trim() !== "")
-      .every((item) => item);
-  }
+
+function isFormValid() {
+  return Object.keys(formData)
+    .map((key) => (formData[key] || "").trim() !== "")
+    .every((item) => item);
+}
+
+  
 
   useEffect(() => {
 dispatch(fetchAllAddresses(user?.id))
   }, [dispatch] )
 
-  console.log( addressList,"addressList");
+  // console.log( addressList,"addressList");
 
   return (
     <Card className="border border-gray-200 shadow-lg">
