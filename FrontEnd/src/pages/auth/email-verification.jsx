@@ -48,14 +48,17 @@ const EmailVerificationPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const verificationCode = code.join("");
-  
+    
     try {
       await dispatch(verifyEmail({ code: verificationCode })).unwrap();
       toast({ description: "Email verified successfully, login to continue", variant: "success" });
-  
+      
+      // Clear any potential lingering authentication state
+      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    
       // Re-fetch auth state to ensure correct redirection
       await dispatch(checkAuth());
-  
+    
       navigate("/auth/login"); // Ensure the correct redirection
     } catch (error) {
       toast({
@@ -64,6 +67,7 @@ const EmailVerificationPage = () => {
       });
     }
   };
+  
 
   // Auto submit when all fields are filled
   useEffect(() => {

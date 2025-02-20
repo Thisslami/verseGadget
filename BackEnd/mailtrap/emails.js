@@ -62,8 +62,6 @@ exports.sendWelcomeEmail = async (email, userName) => {
         },
       }
     );
-
-    console.log("Welcome email sent successfully", response.data);
   } catch (error) {
     handleEmailError(error, "Error sending welcome email");
   }
