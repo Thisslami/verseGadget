@@ -401,6 +401,7 @@ function ShoppingHome() {
 
 
 
+
       <ProductDetailsDialog
         open={openDetailsDialog}
         setOpen={setOpenDetailsDialog}
