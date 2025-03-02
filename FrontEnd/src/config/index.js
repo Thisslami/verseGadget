@@ -137,6 +137,11 @@ export const registerFormControls = [
       label: "Accessories",
       path: "/shop/listing",
     },
+    {
+      id: "about",
+      label: "About",
+      path: "/shop/about",
+    },
   ];
 
   export const categoryOptionsMap = {

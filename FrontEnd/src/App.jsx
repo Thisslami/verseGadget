@@ -26,6 +26,7 @@ import EmailVerificationPage from "./pages/auth/email-verification";
 import ForgotPasswordPage from "./pages/auth/forgot-password";
 import ResetPasswordPage from "./pages/auth/reset-password";
 import { Navigate } from "react-router-dom";
+import AboutPage from "./pages/shopping-view/about";
 function App() {
   const { user, isAuthenticated, isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -67,6 +68,8 @@ function App() {
     <Route path="paystack-return" element={<PaystackReturnPage />} />
     <Route path="payment-success" element={<PaymentSuccessPage />} />
     <Route path="search" element={<SearchProducts />} />
+    <Route path="about" element={<AboutPage/>} />
+
   </Route>
 
   {/* Checkout requires authentication */}
