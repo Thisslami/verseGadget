@@ -51,7 +51,7 @@ function AuthLayout() {
           transition={{ duration: 1 }}
         >
           <h1 className="text-4xl font-extrabold tracking-tight">
-            Geelaw Technologies
+            Gadget Grid
           </h1>
           <p className="text-lg">Your go-to store for amazing gadgets!</p>
         </motion.div>
