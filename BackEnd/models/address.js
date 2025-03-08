@@ -9,7 +9,7 @@ const AddressSchema = new mongoose.Schema(
     lga: String, // New field
     state: String, // New field
     phone: String,
-    pincode: String,
+    // pincode: String,
     country: { type: String, default: "Nigeria" }, // Default to Nigeria
     notes: String,
   },

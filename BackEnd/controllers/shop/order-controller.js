@@ -3,7 +3,6 @@ const Order = require("../../models/order");
 const Cart = require("../../models/cart");
 const Product = require("../../models/products");
 
-
 const createOrder = async (req, res) => {
   try {
     const {
@@ -13,37 +12,31 @@ const createOrder = async (req, res) => {
       orderStatus,
       paymentMethod,
       paymentStatus,
-      totalAmount,
+      totalAmount, // This is the totalAmountWithDelivery from the frontend
+      deliveryPrice, // Delivery price from the frontend
       orderDate,
       orderUpdateDate,
       payerId,
-      cartId
+      cartId,
     } = req.body;
 
+    const callbackUrl = process.env.CLIENT_URL + '/shop/paystack-return';
 
-     // Use environment variable for callback URL
-     const callbackUrl = process.env.CLIENT_URL + '/shop/paystack-return';
-    //  const callbackUrl = `${process.env.CLIENT_URL.replace(/\/$/, '')}/shop/paystack-return`;
-     console.log(`Callback URL: ${callbackUrl}`);
-
-
-    // Prepare data for Paystack payment initialization
+    // Use the totalAmount (which already includes deliveryPrice) for Paystack
     const paystackData = {
-      email: payerId, // User email
+      email: payerId,
       amount: totalAmount * 100, // Convert to kobo or cents
-      currency: "NGN", // Update if using NGN or other currencies
-      callback_url: callbackUrl, // Redirect URL
+      currency: "NGN",
+      callback_url: callbackUrl,
       metadata: {
         userId,
-        cartItems, // Optional: send cart details for reference
+        cartItems,
       },
     };
 
-    // Initialize transaction with Paystack
     const paymentResponse = await initializeTransaction(paystackData);
 
     if (paymentResponse && paymentResponse.status) {
-      // Save the order in your database
       const newOrder = new Order({
         userId,
         cartId,
@@ -52,19 +45,19 @@ const createOrder = async (req, res) => {
         orderStatus,
         paymentMethod,
         paymentStatus,
-        totalAmount,
+        totalAmount, // Save the total amount (cart items + delivery)
+        deliveryPrice, // Save delivery price separately
         orderDate,
         orderUpdateDate,
-        paymentId: paymentResponse.data.reference, // Paystack payment reference
+        paymentId: paymentResponse.data.reference,
         payerId,
       });
 
       await newOrder.save();
 
-      // Respond with the approval URL and order details
       res.status(201).json({
         success: true,
-        approvalURL: paymentResponse.data.authorization_url, // URL for payment
+        approvalURL: paymentResponse.data.authorization_url,
         orderId: newOrder._id,
       });
     } else {
@@ -80,6 +73,7 @@ const createOrder = async (req, res) => {
     });
   }
 };
+
 
 const capturePayment = async (req, res) => {
   const { reference, orderId } = req.body;
