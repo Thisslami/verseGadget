@@ -172,24 +172,6 @@ export const registerFormControls = [
     lenovo : "Lenovo",
     other : "Other",
   };
-
-  // export const filterOptions = {
-  //   category: [
-  //     { id: "smartphones", label: "Smartphones" },
-  //     { id: "laptops", label: "Laptops" },
-  //     { id: "tablets", label: "Tablets" },
-  //     { id: "smartwatches", label: "Smartwatches" },
-  //     { id: "accessories", label: "Accessories" },
-  //   ],
-  //   brand: [
-  //     { id: "apple", label: "Apple" },
-  //     { id: "samsung", label: "Samsung" },
-  //     { id: "sony", label: "Sony" },
-  //     { id: "dell", label: "Dell" },
-  //     { id: "hp", label: "HP" },
-  //     { id: "lenovo", label: "Lenovo" },
-  //   ],
-  // };
   
   export const filterOptions = {
     category: [

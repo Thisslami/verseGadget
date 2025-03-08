@@ -35,7 +35,7 @@ function AddressCard({
           <Label>LGA: {addressInfo?.lga}</Label>
           <Label>City/State: {addressInfo?.state}</Label>
           <Label>Phone: {addressInfo?.phone}</Label>
-          <Label>Postal Code: {addressInfo?.pincode}</Label>
+          {/* <Label>Postal Code: {addressInfo?.pincode}</Label> */}
           <Label>Country: {addressInfo?.country}</Label>
           {addressInfo?.notes && <Label>Notes: {addressInfo?.notes}</Label>}
         </CardContent>
