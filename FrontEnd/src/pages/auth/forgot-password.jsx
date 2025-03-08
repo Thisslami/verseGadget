@@ -47,7 +47,7 @@ function ForgotPasswordPage() {
       transition={{ duration: 0.5 }}
     >
       <div className="p-8">
-        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-black to-indigo-500 text-transparent bg-clip-text">
+        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-white to-white text-transparent bg-clip-text">
           Forgot Password
         </h2>
 

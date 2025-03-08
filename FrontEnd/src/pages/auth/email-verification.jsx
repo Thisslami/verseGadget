@@ -85,7 +85,7 @@ const EmailVerificationPage = () => {
         transition={{ duration: 0.5 }}
         className="bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-2xl p-8 w-full max-w-md"
       >
-        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-black to-indigo-400 text-transparent bg-clip-text">
+        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-white to-white text-transparent bg-clip-text">
           Verify Your Email
         </h2>
         <p className="text-center text-gray-300 mb-6">
@@ -109,14 +109,15 @@ const EmailVerificationPage = () => {
           </div>
           {error && <p className="text-red-500 font-semibold mt-2">{error}</p>}
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            type="submit"
-            disabled={isLoading || code.some((digit) => !digit)}
-            className="w-full bg-gradient-to-r from-blue to-indigo-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-50 disabled:opacity-50"
-          >
-            {isLoading ? "Verifying..." : "Verify Email"}
-          </motion.button>
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  type="submit"
+  disabled={isLoading || code.some((digit) => !digit)}
+  className="w-full bg-gradient-to-r from-[#FF9A8B] to-[#FF6A88] text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:from-[#FF8264] hover:to-[#FF4E57] focus:outline-none focus:ring-2 focus:ring-[#FF6A88] focus:ring-opacity-50 disabled:opacity-50"
+>
+  {isLoading ? "Verifying..." : "Verify Email"}
+</motion.button>
+
         </form>
       </motion.div>
     </div>
