@@ -1,3 +1,4 @@
+import { filterOptions } from "@/config";
 import ProductFilter from "@/components/shopping-view/filter";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,12 +28,14 @@ function createSearchParamsHelper(filterParams) {
   const queryParams = [];
   for (const [key, value] of Object.entries(filterParams)) {
     if (Array.isArray(value) && value.length > 0) {
-      const paramValue = value.join(",");
-      queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
+      value.forEach((item) => {
+        queryParams.push(`${key}=${encodeURIComponent(item)}`);
+      });
     }
   }
   return queryParams.join("&");
 }
+
 
 function ShoppingListing() {
   const dispatch = useDispatch();
@@ -53,24 +56,35 @@ function ShoppingListing() {
     setSort(value);
   }
 
-  function handleFilter(getSectionId, getCurrentOption) {
+  function handleFilter(getSectionId, getCurrentOption, checked) {
     let cpyFilters = { ...filters };
-    const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(getSectionId);
-    if (indexOfCurrentSection === -1) {
-      cpyFilters = {
-        ...cpyFilters,
-        [getSectionId]: [getCurrentOption],
-      };
+  
+    if (getSectionId === "condition") {
+      cpyFilters[getSectionId] = checked ? [getCurrentOption] : [];
     } else {
-      const indexOfCurrentOption =
-        cpyFilters[getSectionId].indexOf(getCurrentOption);
-      if (indexOfCurrentOption === -1)
-        cpyFilters[getSectionId].push(getCurrentOption);
-      else cpyFilters[getSectionId].splice(indexOfCurrentOption, 1);
+      const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(getSectionId);
+      if (indexOfCurrentSection === -1) {
+        cpyFilters = {
+          ...cpyFilters,
+          [getSectionId]: [getCurrentOption],
+        };
+      } else {
+        const indexOfCurrentOption =
+          cpyFilters[getSectionId].indexOf(getCurrentOption);
+        if (indexOfCurrentOption === -1) {
+          cpyFilters[getSectionId].push(getCurrentOption);
+        } else {
+          cpyFilters[getSectionId].splice(indexOfCurrentOption, 1);
+        }
+      }
     }
+    // console.log("Updated Filters:", cpyFilters);
+  
     setFilters(cpyFilters);
     sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
   }
+  
+  
 
   function handleGetProductDetails(getCurrentProductId) {
     dispatch(fetchProductDetails(getCurrentProductId));
@@ -129,16 +143,21 @@ function ShoppingListing() {
   useEffect(() => {
     if (filters && Object.keys(filters).length > 0) {
       const createQueryString = createSearchParamsHelper(filters);
+      // console.log("Query String:", createQueryString); 
       setSearchParams(new URLSearchParams(createQueryString));
     }
   }, [filters]);
 
+
   useEffect(() => {
-    if (filters !== null && sort !== null)
+    if (filters !== null && sort !== null) {
+      // console.log("Dispatching Filters:", filters); // ✅ Debugging: Log the filters being dispatched
       dispatch(
         fetchAllFilteredProducts({ filterParams: filters, sortParams: sort })
       );
+    }
   }, [dispatch, sort, filters]);
+
 
   useEffect(() => {
     if (productDetails !== null) setOpenDetailsDialog(true);
@@ -151,7 +170,7 @@ function ShoppingListing() {
       exit={{ opacity: 0 }}
       className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6"
     >
-      <ProductFilter filters={filters} handleFilter={handleFilter} />
+      <ProductFilter filters={filters} handleFilter={handleFilter} filterOptions={filterOptions} />
       <motion.div
         initial={{ y: 10, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

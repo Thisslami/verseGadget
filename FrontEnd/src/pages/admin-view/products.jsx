@@ -31,6 +31,7 @@ const initialFormData = {
   salePrice: "",
   totalStock: "",
   averageReview: 0,
+  condition: "Brand New", // Add this line
 };
 
 function AdminProducts() {
@@ -45,9 +46,15 @@ function AdminProducts() {
   const dispatch = useDispatch();
   const { toast } = useToast();
 
+  // useEffect(() => {
+  //   dispatch(fetchAllProducts()); 
+  // }, [dispatch]);
+
   useEffect(() => {
-    dispatch(fetchAllProducts()); // Fetch products on mount
+    dispatch(fetchAllProducts());
+    setFormData(initialFormData); // Reset form data
   }, [dispatch]);
+  
 
   function onSubmit(event) {
     event.preventDefault();
