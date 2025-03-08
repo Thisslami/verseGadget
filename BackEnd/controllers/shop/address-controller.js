@@ -4,7 +4,9 @@ const addAddress = async (req, res) => {
   try {
     const { userId, fullName, address, lga, state, phone, pincode, country, notes } = req.body;
 
-    if (!userId || !fullName || !address || !lga || !state || !phone || !pincode || !country || !notes) {
+    if (!userId || !fullName || !address || !lga || !state || !phone
+      //  || !pincode
+        || !country || !notes) {
       return res.status(400).json({
         success: false,
         message: "Invalid data provided!",
@@ -18,7 +20,7 @@ const addAddress = async (req, res) => {
       lga,
       state,
       phone,
-      pincode,
+      // pincode,
       country,
       notes,
     });
