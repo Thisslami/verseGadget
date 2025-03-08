@@ -241,13 +241,13 @@ export const registerFormControls = [
       type: "text",
       placeholder: "Enter your phone number",
     },
-    {
-      label: "Postal Code",
-      name: "pincode",
-      componentType: "input",
-      type: "text",
-      placeholder: "Enter your postal code",
-    },
+    // {
+    //   label: "Postal Code",
+    //   name: "pincode",
+    //   componentType: "input",
+    //   type: "text",
+    //   placeholder: "Enter your postal code",
+    // },
     {
       label: "Country",
       name: "country",
