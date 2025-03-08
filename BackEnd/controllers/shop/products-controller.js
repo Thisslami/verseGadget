@@ -1,8 +1,63 @@
 const Product = require("../../models/products");
 
+// const getFilteredProducts = async (req, res) => {
+//   try {
+//     const { category = [], brand = [], sortBy = "price-lowtohigh" } = req.query;
+
+//     let filters = {};
+
+//     if (category.length) {
+//       filters.category = { $in: category.split(",") };
+//     }
+
+//     if (brand.length) {
+//       filters.brand = { $in: brand.split(",") };
+//     }
+
+//     let sort = {};
+
+//     switch (sortBy) {
+//       case "price-lowtohigh":
+//         sort.price = 1;
+
+//         break;
+//       case "price-hightolow":
+//         sort.price = -1;
+
+//         break;
+//       case "title-atoz":
+//         sort.title = 1;
+
+//         break;
+
+//       case "title-ztoa":
+//         sort.title = -1;
+
+//         break;
+
+//       default:
+//         sort.price = 1;
+//         break;
+//     }
+
+//     const products = await Product.find(filters).sort(sort);
+
+//     res.status(200).json({
+//       success: true,
+//       data: products,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({
+//       success: false,
+//       message: "Some error occured",
+//     });
+//   }
+// };
+
 const getFilteredProducts = async (req, res) => {
   try {
-    const { category = [], brand = [], sortBy = "price-lowtohigh" } = req.query;
+    const { category = [], brand = [], condition = [], sortBy = "price-lowtohigh" } = req.query;
 
     let filters = {};
 
@@ -14,27 +69,25 @@ const getFilteredProducts = async (req, res) => {
       filters.brand = { $in: brand.split(",") };
     }
 
+    if (condition.length) {
+      filters.condition = { $in: condition.split(",") }; // ✅ Add this line
+    }
+
     let sort = {};
 
     switch (sortBy) {
       case "price-lowtohigh":
         sort.price = 1;
-
         break;
       case "price-hightolow":
         sort.price = -1;
-
         break;
       case "title-atoz":
         sort.title = 1;
-
         break;
-
       case "title-ztoa":
         sort.title = -1;
-
         break;
-
       default:
         sort.price = 1;
         break;
@@ -50,10 +103,13 @@ const getFilteredProducts = async (req, res) => {
     console.log(error);
     res.status(500).json({
       success: false,
-      message: "Some error occured",
+      message: "Some error occurred",
     });
   }
 };
+
+
+
 
 const getProductDetails = async (req, res) => {
   try {

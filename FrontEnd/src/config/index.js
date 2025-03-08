@@ -42,7 +42,6 @@ export const registerFormControls = [
     },
   ];
 
-
   export const addProductFormElements = [
     {
       label: "Title",
@@ -104,7 +103,17 @@ export const registerFormControls = [
       type: "number",
       placeholder: "Enter total stock",
     },
+    {
+      label: "Condition",
+      name: "condition",
+      componentType: "select",
+      options: [
+        { id: "Brand New", label: "Brand New" },
+        { id: "Used", label: "Used" },
+      ],
+    },
   ];
+
 
   export const shoppingViewHeaderMenuItems = [
     {
@@ -164,6 +173,24 @@ export const registerFormControls = [
     other : "Other",
   };
 
+  // export const filterOptions = {
+  //   category: [
+  //     { id: "smartphones", label: "Smartphones" },
+  //     { id: "laptops", label: "Laptops" },
+  //     { id: "tablets", label: "Tablets" },
+  //     { id: "smartwatches", label: "Smartwatches" },
+  //     { id: "accessories", label: "Accessories" },
+  //   ],
+  //   brand: [
+  //     { id: "apple", label: "Apple" },
+  //     { id: "samsung", label: "Samsung" },
+  //     { id: "sony", label: "Sony" },
+  //     { id: "dell", label: "Dell" },
+  //     { id: "hp", label: "HP" },
+  //     { id: "lenovo", label: "Lenovo" },
+  //   ],
+  // };
+  
   export const filterOptions = {
     category: [
       { id: "smartphones", label: "Smartphones" },
@@ -180,7 +207,13 @@ export const registerFormControls = [
       { id: "hp", label: "HP" },
       { id: "lenovo", label: "Lenovo" },
     ],
+    condition: [ // New condition filter added
+      { id: "Brand New", label: "Brand New" },
+      { id: "Used", label: "Used" },
+    ],
   };
+  
+  
   export const sortOptions = [
     { id: "price-lowtohigh", label: "Price: Low to High" },
     { id: "price-hightolow", label: "Price: High to Low" },
