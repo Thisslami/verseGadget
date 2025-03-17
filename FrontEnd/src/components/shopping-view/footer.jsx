@@ -186,7 +186,7 @@ const Footer = () => {
                   className="object-contain"
                 />
                 <p className="text-sm text-gray-300 leading-relaxed">
-                  Welcome to GADGET GRID Phone and accessories, your go-to place
+                  Welcome to GADGETS GRID Phone and accessories, your go-to place
                   for the latest and greatest in tech.
                 </p>
               </div>
