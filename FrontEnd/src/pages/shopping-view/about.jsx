@@ -1,57 +1,7 @@
-// import { motion } from 'framer-motion';
-// import { ShieldCheck, DollarSign, Truck } from 'lucide-react';
-
-// const AboutPage = () => {
-//   return (
-//     <div className="container mx-auto py-16 px-6 md:px-12 lg:px-20">
-//       <motion.h1
-//         initial={{ opacity: 0, y: -50 }}
-//         animate={{ opacity: 1, y: 0 }}
-//         transition={{ duration: 0.8, ease: 'easeOut' }}
-//         className="text-4xl md:text-5xl font-extrabold text-center text-primary mb-6"
-//       >
-//         About Us
-//       </motion.h1>
-//       <motion.p
-//         initial={{ opacity: 0 }}
-//         animate={{ opacity: 1 }}
-//         transition={{ duration: 1, delay: 0.5 }}
-//         className="text-lg text-center text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-8"
-//       >
-//         Welcome to <span className="font-semibold text-primary">GadgetGrid</span>, your one-stop destination for cutting-edge gadgets at unbeatable prices.
-//         Our passion is to bring the latest technology right to your fingertips.
-//       </motion.p>
-
-//       <motion.div
-//         initial={{ opacity: 0, scale: 0.8 }}
-//         animate={{ opacity: 1, scale: 1 }}
-//         transition={{ duration: 0.8, delay: 1 }}
-//         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
-//       >
-//         <div className="bg-card rounded-2xl shadow-lg p-8 text-center hover:shadow-xl transition duration-300">
-//           <ShieldCheck size={48} className="text-primary mx-auto mb-4" />
-//           <h3 className="text-xl font-bold text-primary mb-3">Quality Products</h3>
-//           <p className="text-muted-foreground">We source only the best quality gadgets from trusted manufacturers.</p>
-//         </div>
-//         <div className="bg-card rounded-2xl shadow-lg p-8 text-center hover:shadow-xl transition duration-300">
-//           <DollarSign size={48} className="text-primary mx-auto mb-4" />
-//           <h3 className="text-xl font-bold text-primary mb-3">Affordable Prices</h3>
-//           <p className="text-muted-foreground">Top-notch gadgets without breaking the bank.</p>
-//         </div>
-//         <div className="bg-card rounded-2xl shadow-lg p-8 text-center hover:shadow-xl transition duration-300">
-//           <Truck size={48} className="text-primary mx-auto mb-4" />
-//           <h3 className="text-xl font-bold text-primary mb-3">Fast Delivery</h3>
-//           <p className="text-muted-foreground">We ensure quick and secure delivery to your doorstep.</p>
-//         </div>
-//       </motion.div>
-//     </div>
-//   );
-// };
-
-// export default AboutPage;
-
 import { motion } from "framer-motion";
 import { FaShieldAlt, FaTruck } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
 import {
   FaInstagram,
@@ -102,9 +52,12 @@ const AboutPage = () => {
         className="text-lg text-center text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-12"
       >
         Welcome to{" "}
-        <span className="font-semibold text-primary">GadgetGrid</span>, your
-        one-stop destination for cutting-edge gadgets at unbeatable prices. Our
-        passion is to bring the latest technology right to your fingertips.
+        <span className="font-semibold text-primary">
+          Gadgets Grid phones and accessories
+        </span>
+        , your one-stop destination for cutting-edge gadgets at unbeatable
+        prices. Our passion is to bring the latest technology right to your
+        fingertips.
       </motion.p>
 
       {/* Features Section */}
@@ -198,17 +151,49 @@ const AboutPage = () => {
           unbeatable prices.
         </p>
         <div className="flex gap-4 justify-center">
-          <Button className="bg-white text-primary font-bold hover:bg-secondary transition-all duration-300 shadow-lg">
-            Shop Now 🛒
-          </Button>
           <Button
-            variant="outline"
-            className="border-white text-white hover:bg-white hover:text-primary transition-all duration-300"
+            asChild
+            className="bg-white text-primary font-bold hover:bg-gray-400 transition-all duration-300 shadow-lg"
           >
-            Contact Us 📩
+            <Link to="/shop/home">Shop Now 🛒</Link>
+          </Button>
+
+          <Button
+            asChild
+            variant="outline"
+            className="border-white text-primary hover:bg-gray-400 hover:text-primary transition-all duration-300"
+          >
+            <a href="mailto:gadgetsgridphones@gmail.com">Contact Us 📩</a>
           </Button>
         </div>
       </motion.div>
+
+      {/* Accordion for Policies */}
+      <Accordion type="single" collapsible className="mt-12">
+        <AccordionItem value="return-policy">
+          <AccordionTrigger className="text-primary font-bold">
+            Return Policy
+          </AccordionTrigger>
+          <AccordionContent className="text-muted-foreground">
+            <p>
+              We offer a 7-day return policy for all products. If you're not
+              satisfied with your purchase, you can return it in its original
+              condition for a full refund or exchange.
+            </p>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="terms">
+          <AccordionTrigger className="text-primary font-bold">
+            Terms and Conditions
+          </AccordionTrigger>
+          <AccordionContent className="text-muted-foreground">
+            <p>
+              By using our website, you agree to our terms and conditions. All
+              products are subject to availability.
+            </p>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </div>
   );
 };

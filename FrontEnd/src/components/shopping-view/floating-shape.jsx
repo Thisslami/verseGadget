@@ -52,7 +52,7 @@ import { motion } from "framer-motion";
 const FloatingShape = ({ color, size, top, left, delay }) => {
   return (
     <motion.div
-      className={`absolute rounded-full ${color} ${size} opacity-50 blur-xl`} // Increased opacity
+      className={`absolute rounded-full ${color} ${size} opacity-70 blur-xl`} // Increased opacity
       style={{ top, left }}
       animate={{
         y: ["0%", "100%", "0%"],
