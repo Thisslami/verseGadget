@@ -357,6 +357,11 @@ function ShoppingCheckout() {
             </div>
           </div>
 
+          <div className="p-3 bg-blue-100 text-blue-700 rounded-md text-sm mt-3">
+  🚚 Standard delivery takes <strong>2-3 business days</strong>. We appreciate your patience!
+</div>
+
+
           {/* Checkout Button */}
           <div className="mt-4 w-full">
             <Button
