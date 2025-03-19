@@ -176,20 +176,29 @@ const AboutPage = () => {
           </AccordionTrigger>
           <AccordionContent className="text-muted-foreground">
             <p>
-              We offer a 7-day return policy for all products. If you're not
-              satisfied with your purchase, you can return it in its original
-              condition for a full refund or exchange.
+              We offer a 7-day return policy for all products. If you're not satisfied with your purchase, you can return it in its original condition for a full refund or exchange.
             </p>
           </AccordionContent>
         </AccordionItem>
+
+        <AccordionItem value="delivery-info">
+          <AccordionTrigger className="text-primary font-bold flex items-center gap-2">
+           Delivery Information
+          </AccordionTrigger>
+          <AccordionContent className="text-muted-foreground">
+            <p>
+              Our delivery time is <strong>2-3 business days</strong>. We ensure quick and secure shipping so you receive your gadgets in top condition. Tracking details will be provided once your order is shipped.
+            </p>
+          </AccordionContent>
+        </AccordionItem>
+
         <AccordionItem value="terms">
           <AccordionTrigger className="text-primary font-bold">
             Terms and Conditions
           </AccordionTrigger>
           <AccordionContent className="text-muted-foreground">
             <p>
-              By using our website, you agree to our terms and conditions. All
-              products are subject to availability.
+              By using our website, you agree to our terms and conditions. All products are subject to availability.
             </p>
           </AccordionContent>
         </AccordionItem>

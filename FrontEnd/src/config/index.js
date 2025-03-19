@@ -188,6 +188,9 @@ export const registerFormControls = [
       { id: "dell", label: "Dell" },
       { id: "hp", label: "HP" },
       { id: "lenovo", label: "Lenovo" },
+      { id: "google", label: "Google" },
+      { id: "tecno", label: "Tecno" },
+      { id: "redmi", label: "Redmi" },
     ],
     condition: [ // New condition filter added
       { id: "Brand New", label: "Brand New" },

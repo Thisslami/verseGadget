@@ -55,14 +55,14 @@ const supportFeatures = [
   {
     image:
       "https://media.istockphoto.com/id/1489988162/video/delivery-truck-animation-4k-video-on-white-background.jpg?s=640x640&k=20&c=vDTwAczI8Y5XrGq_Qu5CPsQh9zE5T0mq8VXXobGtOWQ=",
-    title: "Free Shipping",
+    title: "Swift & Secure Delivery",
     description:
-      "Our fast shipping policy applies to all orders, regardless of the order value or destination.",
+      "Our fast delivery policy applies to all orders, regardless of the order value or destination.",
   },
   {
     image:
       "https://img.freepik.com/premium-vector/mobile-banking-payment-by-credit-card-using-smartphone-pos-terminal-confirms-payment-nfc-payments-scan-pay-payment-using-phone-scan-qr-code-contactless-payment-cashless-technology_435184-668.jpg",
-    title: "Secure Payment",
+    title: "Secure & Seamless  Payment",
     description:
       "Your payment is always safe, secure, and protected at all times.",
   },
@@ -216,47 +216,64 @@ function ShoppingHome() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="relative w-full h-[600px] overflow-hidden">
-        {featureImageList && featureImageList.length > 0
-          ? featureImageList.map((slide, index) => (
-              <motion.img
-                src={slide?.image}
-                key={index}
-                className={`absolute top-0 left-0 w-full h-full object-cover`}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: index === currentSlide ? 1 : 0 }}
-                transition={{ duration: 1 }}
-              />
-            ))
-          : null}
-        {/* Navigation Buttons */}
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() =>
-            setCurrentSlide(
-              (prevSlide) =>
-                (prevSlide - 1 + featureImageList.length) %
-                featureImageList.length
-            )
-          }
-          className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/80"
+  <div className="relative w-full h-[600px] overflow-hidden">
+  {featureImageList && featureImageList.length > 0
+    ? featureImageList.map((slide, index) => (
+        <motion.div
+          key={index}
+          className="absolute top-0 left-0 w-full h-full"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: index === currentSlide ? 1 : 0 }}
+          transition={{ duration: 1 }}
         >
-          <ChevronLeftIcon className="w-4 h-4" />
-        </Button>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() =>
-            setCurrentSlide(
-              (prevSlide) => (prevSlide + 1) % featureImageList.length
-            )
-          }
-          className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/80"
-        >
-          <ChevronRightIcon className="w-4 h-4" />
-        </Button>
-      </div>
+          <motion.img
+            src={slide?.image}
+            className="w-full h-full object-cover"
+            alt={`Slide ${index + 1}`}
+          />
+          {/* Shop Now Button */}
+          <motion.div
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: index === currentSlide ? 1 : 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            <Button
+              onClick={() => navigate("/shop/listing")}
+              className="bg-white text-black hover:bg-white/90 px-8 py-4 text-lg font-bold shadow-lg flex items-center gap-2"
+            >
+              <ShoppingBag className="w-5 h-5" />
+              Shop Now
+            </Button>
+          </motion.div>
+        </motion.div>
+      ))
+    : null}
+  {/* Navigation Buttons */}
+  <Button
+    variant="outline"
+    size="icon"
+    onClick={() =>
+      setCurrentSlide(
+        (prevSlide) =>
+          (prevSlide - 1 + featureImageList.length) % featureImageList.length
+      )
+    }
+    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/80"
+  >
+    <ChevronLeftIcon className="w-4 h-4" />
+  </Button>
+  <Button
+    variant="outline"
+    size="icon"
+    onClick={() =>
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length)
+    }
+    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/80"
+  >
+    <ChevronRightIcon className="w-4 h-4" />
+  </Button>
+</div>
 
       <section className="py-12">
   <div className="container mx-auto px-4">
@@ -340,7 +357,7 @@ function ShoppingHome() {
     
 
       <section className="py-12">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 ">
         <h2 className="text-3xl font-bold text-center mb-8">Feature Products</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {featuredProducts.map((productItem, index) => (
