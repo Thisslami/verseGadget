@@ -87,8 +87,48 @@ const PASSWORD_RESET_REQUEST_TEMPLATE = `
 </html>
 `;
 
+const ORDER_RECEIPT_TEMPLATE = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Receipt</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(to right, ${THEME_COLOR}, #E69572); padding: 20px; text-align: center;">
+    <h1 style="color: white; margin: 0;">Order Receipt</h1>
+  </div>
+  <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <p>Hello {userName},</p>
+    <p>Thank you for your purchase! Your order has been confirmed.</p>
+    <p><strong>Order ID:</strong> {orderId}</p>
+    <p><strong>Payment Status:</strong> {paymentStatus}</p>
+    <p><strong>Order Price:</strong> NGN {orderPrice}</p>
+    <p><strong>Delivery Price:</strong> NGN {deliveryPrice}</p>
+    <p><strong>Total Amount:</strong> NGN {totalAmount}</p>
+    <p>Here is a summary of your order:</p>
+    <ul>{cartItems}</ul>
+    <p>Your order will be delivered to:</p>
+    <p>{addressInfo}</p>
+
+    <!-- Delivery Information Section -->
+    <div style="margin-top: 20px; padding: 15px; background-color: #fff; border-radius: 5px; border: 1px solid #eee;">
+      <h3 style="color: ${THEME_COLOR}; margin-top: 0;">Delivery Information</h3>
+      <p>We aim to deliver your order within <strong>2-3 business days</strong>.</p>
+      <p>You will receive a notification once your order has been shipped, along with a tracking number to monitor its progress.</p>
+      <p>If you have any questions about your delivery, feel free to contact our support team at <strong>gadgetsgridphones@gmail.com</strong>.</p>
+    </div>
+
+    <p>Best regards,<br>Gadgetsgridphonesandaccessories</p>
+  </div>
+</body>
+</html>
+`;
+
 module.exports = {
   VERIFICATION_EMAIL_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
-  PASSWORD_RESET_REQUEST_TEMPLATE
+  PASSWORD_RESET_REQUEST_TEMPLATE,
+  ORDER_RECEIPT_TEMPLATE, // New Receipt Template
 };

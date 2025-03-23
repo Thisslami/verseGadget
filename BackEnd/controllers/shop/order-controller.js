@@ -2,6 +2,7 @@ const { initializeTransaction, verifyTransaction } = require("../../helpers/pays
 const Order = require("../../models/order");
 const Cart = require("../../models/cart");
 const Product = require("../../models/products");
+const { sendReceiptEmail } = require("../../mailtrap/emails")
 
 const createOrder = async (req, res) => {
   try {
@@ -75,6 +76,7 @@ const createOrder = async (req, res) => {
 };
 
 
+
 const capturePayment = async (req, res) => {
   const { reference, orderId } = req.body;
 
@@ -121,10 +123,8 @@ const capturePayment = async (req, res) => {
           message: `Not enough stock for this product ${product.title}`,
         });
       }
-      
 
       product.totalStock -= item.quantity;
-
       await product.save();
     }
 
@@ -134,6 +134,11 @@ const capturePayment = async (req, res) => {
 
     if (cart) {
       await Cart.findByIdAndDelete(cartId);
+    }
+
+    // Send receipt email if payment is successful
+    if (order.paymentStatus === "paid") {
+      await sendReceiptEmail(order.payerId, order); 
     }
 
     res.status(200).json({
@@ -148,8 +153,6 @@ const capturePayment = async (req, res) => {
     });
   }
 };
-
-
 
 const getAllOrdersByUser = async (req, res) => {
   try {
