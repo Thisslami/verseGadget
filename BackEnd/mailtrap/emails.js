@@ -4,7 +4,9 @@ const axios = require("axios");
 const {
   PASSWORD_RESET_REQUEST_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
-  VERIFICATION_EMAIL_TEMPLATE
+  VERIFICATION_EMAIL_TEMPLATE,
+  ORDER_RECEIPT_TEMPLATE
+
 } = require("./email-template.js");
 const { mailtrapClient, sender } = require("./mailtrap.config.js");
 
@@ -102,5 +104,85 @@ exports.sendResetSuccessEmail = async (email) => {
     console.log("Password reset success email sent successfully", response);
   } catch (error) {
     handleEmailError(error, "Error sending password reset success email");
+  }
+};
+
+// exports.sendReceiptEmail = async (email, order) => {
+//   const recipient = [{ email }];
+  
+//   // Convert cart items into an HTML list
+//   const cartItemsHTML = order.cartItems.map(item => 
+//     `<li>${item.productName} - NGN ${item.price} x ${item.quantity}</li>`
+//   ).join("");
+
+//   const emailContent = ORDER_RECEIPT_TEMPLATE
+//     .replace("{userName}", order.payerId)
+//     .replace("{orderId}", order._id)
+//     .replace("{paymentStatus}", order.paymentStatus)
+//     .replace("{totalAmount}", order.totalAmount)
+//     .replace("{cartItems}", cartItemsHTML)
+//     .replace("{addressInfo}", order.addressInfo);
+
+//   try {
+//     await mailtrapClient.send({
+//       from: sender,
+//       to: recipient,
+//       subject: "Your Order Receipt",
+//       html: emailContent,
+//       category: "Order Receipt",
+//     });
+
+//     console.log("Receipt email sent successfully to", email);
+//   } catch (error) {
+//     console.error("Error sending receipt email:", error.message);
+//   }
+// };
+
+exports.sendReceiptEmail = async (email, order) => {
+  const recipient = [{ email }];
+  
+  // console.log("Sending receipt email to:", email);
+  // console.log("Order details:", order);
+
+  // Convert cart items into an HTML list
+  const cartItemsHTML = order.cartItems.map(item => 
+    `<li>${item.title} - NGN ${item.price} x ${item.quantity}</li>`
+  ).join("");
+
+  // console.log("Cart items HTML:", cartItemsHTML);
+
+  // Format address info without notes
+  const addressInfo = `
+    ${order.addressInfo.fullName}<br>
+    ${order.addressInfo.address}<br>
+    ${order.addressInfo.lga}<br>
+    ${order.addressInfo.state}<br>
+    ${order.addressInfo.phone}
+  `;
+
+  const emailContent = ORDER_RECEIPT_TEMPLATE
+    .replace("{userName}", order.payerId)
+    .replace("{orderId}", order._id)
+    .replace("{paymentStatus}", order.paymentStatus)
+    .replace("{orderPrice}", order.totalAmount - order.deliveryPrice) // Order price (without delivery)
+    .replace("{deliveryPrice}", order.deliveryPrice) // Delivery price
+    .replace("{totalAmount}", order.totalAmount) // Total amount (order price + delivery price)
+    .replace("{cartItems}", cartItemsHTML)
+    .replace("{addressInfo}", addressInfo);
+
+  // console.log("Email content:", emailContent);
+
+  try {
+    const response = await mailtrapClient.send({
+      from: sender,
+      to: recipient,
+      subject: "Your Order Receipt",
+      html: emailContent,
+      category: "Order Receipt",
+    });
+  
+    console.log("Email sent successfully:", response);
+  } catch (error) {
+    console.error("Error sending receipt email:", error.message);
   }
 };

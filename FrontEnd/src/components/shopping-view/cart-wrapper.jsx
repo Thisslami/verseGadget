@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
@@ -37,26 +36,41 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
               </div>
             ))
           ) : (
-            <p className="text-center text-gray-500">Your cart is empty.</p>
+            <div className="flex flex-col items-center justify-center h-[calc(100vh-300px)]">
+              <p className="text-center text-gray-500 mb-4">
+                Your cart is currently empty.
+              </p>
+              <Button
+                onClick={() => {
+                  navigate("/shop/listing");
+                  setOpenCartSheet(false);
+                }}
+                className="w-full max-w-xs"
+              >
+                Return to Shop
+              </Button>
+            </div>
           )}
         </div>
       </ScrollArea>
-      <div className="mt-6 space-y-4">
-        <div className="flex justify-between">
-          <span className="font-bold">Total</span>
-          <span className="font-bold">₦{totalCartAmount.toFixed(2)}</span>
+      {cartItems && cartItems.length > 0 && (
+        <div className="mt-6 space-y-4">
+          <div className="flex justify-between">
+            <span className="font-bold">Total</span>
+            <span className="font-bold">₦{totalCartAmount.toFixed(2)}</span>
+          </div>
+          <Button
+            onClick={() => {
+              navigate("/shop/checkout");
+              setOpenCartSheet(false);
+            }}
+            className="w-full mt-4"
+            disabled={cartItems.length === 0}
+          >
+            Checkout
+          </Button>
         </div>
-        <Button
-          onClick={() => {
-            navigate("/shop/checkout");
-            setOpenCartSheet(false);
-          }}
-          className="w-full mt-4"
-          disabled={cartItems.length === 0}
-        >
-          Checkout
-        </Button>
-      </div>
+      )}
     </SheetContent>
   );
 }

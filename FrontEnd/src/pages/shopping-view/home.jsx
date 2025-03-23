@@ -1,3 +1,5 @@
+
+
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +19,6 @@ import {
   Tv,
   Watch,
 } from "lucide-react";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,11 +28,11 @@ import {
 } from "@/store/shop/products-slice";
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import { useNavigate } from "react-router-dom";
-// import { fetchProductDetails } from "@/store/shop/products-slice";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { useToast } from "@/components/ui/use-toast";
 import { getFeatureImages } from "@/store/common-slice";
+import { FaTruck, FaCreditCard, FaHeadset } from "react-icons/fa"; // Import icons from react-icons
 
 const categoriesWithIcon = [
   { id: "smartphones", label: "Smartphones", icon: Smartphone },
@@ -53,22 +54,19 @@ const brandsWithIcon = [
 
 const supportFeatures = [
   {
-    image:
-      "https://media.istockphoto.com/id/1489988162/video/delivery-truck-animation-4k-video-on-white-background.jpg?s=640x640&k=20&c=vDTwAczI8Y5XrGq_Qu5CPsQh9zE5T0mq8VXXobGtOWQ=",
+    icon: FaTruck, // Use FaTruck icon
     title: "Swift & Secure Delivery",
     description:
       "Our fast delivery policy applies to all orders, regardless of the order value or destination.",
   },
   {
-    image:
-      "https://img.freepik.com/premium-vector/mobile-banking-payment-by-credit-card-using-smartphone-pos-terminal-confirms-payment-nfc-payments-scan-pay-payment-using-phone-scan-qr-code-contactless-payment-cashless-technology_435184-668.jpg",
-    title: "Secure & Seamless  Payment",
+    icon: FaCreditCard, // Use FaCreditCard icon
+    title: "Secure & Seamless Payment",
     description:
       "Your payment is always safe, secure, and protected at all times.",
   },
   {
-    image:
-      "https://www.shutterstock.com/shutterstock/videos/1103413579/thumb/12.jpg?ip=x480",
+    icon: FaHeadset, // Use FaHeadset icon
     title: "24/7 Support",
     description:
       "We are available 24/7 to assist you with any question, or issues you may have.",
@@ -132,15 +130,14 @@ function ShoppingHome() {
     dispatch(fetchProductDetails(getCurrentProductId));
   }
 
-
   function handleAddToCart(getCurrentProductId) {
     if (!user) {
-      navigate("/auth/login"); 
+      navigate("/auth/login");
       toast({
         title: "Please login to add to cart.",
         variant: "destructive",
       });
-      return; 
+      return;
     }
 
     console.log("Adding to Cart:", {
@@ -161,16 +158,15 @@ function ShoppingHome() {
         toast({
           title: "Product added to cart!",
         });
-      } else if(data?.payload?.message){
+      } else if (data?.payload?.message) {
         toast({
           title: data?.payload?.message,
-        })
+        });
       }
     });
   }
 
   useEffect(() => {
-  
     if (productDetails !== null) setOpenDetailsDialog(true);
   }, [productDetails]);
 
@@ -203,8 +199,6 @@ function ShoppingHome() {
     }
   }, [dispatch, productList.length]);
 
-  // console.log(productList, "productList");
-
   useEffect(() => {
     dispatch(getFeatureImages());
   }, [dispatch]);
@@ -216,96 +210,96 @@ function ShoppingHome() {
 
   return (
     <div className="flex flex-col min-h-screen">
-  <div className="relative w-full h-[600px] overflow-hidden">
-  {featureImageList && featureImageList.length > 0
-    ? featureImageList.map((slide, index) => (
-        <motion.div
-          key={index}
-          className="absolute top-0 left-0 w-full h-full"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: index === currentSlide ? 1 : 0 }}
-          transition={{ duration: 1 }}
+      <div className="relative w-full h-[300px] sm:h-[400px] md:h-[600px] overflow-hidden">
+        {featureImageList && featureImageList.length > 0
+          ? featureImageList.map((slide, index) => (
+              <motion.div
+                key={index}
+                className="absolute top-0 left-0 w-full h-full"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: index === currentSlide ? 1 : 0 }}
+                transition={{ duration: 1 }}
+              >
+                <motion.img
+                  src={slide?.image}
+                  className="w-full h-full object-container"
+                  alt={`Slide ${index + 1}`}
+                />
+                {/* Shop Now Button */}
+                <motion.div
+                  className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: index === currentSlide ? 1 : 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                >
+                  <Button
+                    onClick={() => navigate("/shop/listing")}
+                    className="bg-white text-black hover:bg-white/90 px-4 py-2 sm:px-8 sm:py-4 text-sm sm:text-lg font-bold shadow-lg flex items-center gap-2"
+                  >
+                    <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
+                    Shop Now
+                  </Button>
+                </motion.div>
+              </motion.div>
+            ))
+          : null}
+        {/* Navigation Buttons */}
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() =>
+            setCurrentSlide(
+              (prevSlide) =>
+                (prevSlide - 1 + featureImageList.length) % featureImageList.length
+            )
+          }
+          className="absolute top-1/2 left-2 sm:left-4 transform -translate-y-1/2 bg-white/80"
         >
-          <motion.img
-            src={slide?.image}
-            className="w-full h-full object-cover"
-            alt={`Slide ${index + 1}`}
-          />
-          {/* Shop Now Button */}
-          <motion.div
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: index === currentSlide ? 1 : 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            <Button
-              onClick={() => navigate("/shop/listing")}
-              className="bg-white text-black hover:bg-white/90 px-8 py-4 text-lg font-bold shadow-lg flex items-center gap-2"
-            >
-              <ShoppingBag className="w-5 h-5" />
-              Shop Now
-            </Button>
-          </motion.div>
-        </motion.div>
-      ))
-    : null}
-  {/* Navigation Buttons */}
-  <Button
-    variant="outline"
-    size="icon"
-    onClick={() =>
-      setCurrentSlide(
-        (prevSlide) =>
-          (prevSlide - 1 + featureImageList.length) % featureImageList.length
-      )
-    }
-    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/80"
-  >
-    <ChevronLeftIcon className="w-4 h-4" />
-  </Button>
-  <Button
-    variant="outline"
-    size="icon"
-    onClick={() =>
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length)
-    }
-    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/80"
-  >
-    <ChevronRightIcon className="w-4 h-4" />
-  </Button>
-</div>
+          <ChevronLeftIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() =>
+            setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length)
+          }
+          className="absolute top-1/2 right-2 sm:right-4 transform -translate-y-1/2 bg-white/80"
+        >
+          <ChevronRightIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+        </Button>
+      </div>
 
       <section className="py-12">
-  <div className="container mx-auto px-4">
-    <h2 className="text-3xl font-bold text-center mb-8">Trending Products</h2>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {displayedProducts.length > 0 &&
-        displayedProducts.map((productItem, index) => (
-          <motion.div
-            key={productItem.id}
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            whileHover={{ scale: 1.05, boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.1)" }}
-            className="cursor-pointer"
-          >
-            <ShoppingProductTile
-              handleGetProductDetails={handleGetProductDetails}
-              product={productItem}
-              handleAddToCart={handleAddToCart}
-            />
-          </motion.div>
-        ))}
-    </div>
-  </div>
-</section>
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">Trending Products</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6">
+            {displayedProducts.length > 0 &&
+              displayedProducts.map((productItem, index) => (
+                <motion.div
+                  key={productItem.id}
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ scale: 1.05, boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.1)" }}
+                  className="cursor-pointer"
+                >
+                  <ShoppingProductTile
+                    handleGetProductDetails={handleGetProductDetails}
+                    product={productItem}
+                    handleAddToCart={handleAddToCart}
+                  />
+                </motion.div>
+              ))}
+          </div>
+        </div>
+      </section>
 
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">
             Shop by category
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {categoriesWithIcon.map(({ id, label, icon: Icon }) => (
               <motion.div
                 key={id}
@@ -332,7 +326,7 @@ function ShoppingHome() {
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">Shop by Brand</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {brandsWithIcon.map(({ id, label, icon: Icon }) => (
               <motion.div
                 key={id}
@@ -354,70 +348,58 @@ function ShoppingHome() {
         </div>
       </section>
 
-    
-
       <section className="py-12">
-      <div className="container mx-auto px-4 ">
-        <h2 className="text-3xl font-bold text-center mb-8">Feature Products</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {featuredProducts.map((productItem, index) => (
-            <motion.div
-              key={productItem.id}
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ scale: 1.05 }}
-            >
-              <ShoppingProductTile
-                handleGetProductDetails={handleGetProductDetails}
-                product={productItem}
-                handleAddToCart={handleAddToCart}
-              />
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-
-      <section className="py-12 bg-gray-50">
-        {" "}
-        {/* Added background color */}
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {supportFeatures.map((feature, index) => (
+        <div className="container mx-auto px-4 ">
+          <h2 className="text-3xl font-bold text-center mb-8">Feature Products</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6">
+            {featuredProducts.map((productItem, index) => (
               <motion.div
-                key={index}
-                className="flex justify-center" // Center the card
+                key={productItem.id}
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.05 }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
               >
-                <Card className="w-full sm:w-72">
-                  {" "}
-                  <CardContent className="flex flex-col items-center p-6">
-                    <img
-                      src={feature.image}
-                      alt={feature.title}
-                      width={200} // Set appropriate width
-                      height={150} // Set appropriate height
-                      className="mb-4 object-cover" // Make image responsive and cover container
-                    />
-                    <h3 className="font-bold text-lg mb-2">{feature.title}</h3>
-                    <p className="text-center text-gray-600">
-                      {feature.description}
-                    </p>
-                  </CardContent>
-                </Card>
+                <ShoppingProductTile
+                  handleGetProductDetails={handleGetProductDetails}
+                  product={productItem}
+                  handleAddToCart={handleAddToCart}
+                />
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-
-
+      <section className="py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {supportFeatures.map((feature, index) => {
+              const Icon = feature.icon; // Extract the icon component
+              return (
+                <motion.div
+                  key={index}
+                  className="flex justify-center"
+                  whileHover={{ scale: 1.05 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Card className="w-full sm:w-72">
+                    <CardContent className="flex flex-col items-center p-6">
+                      <Icon className="w-12 h-12 mb-4 text-primary-500" /> {/* Use the icon */}
+                      <h3 className="font-bold text-lg mb-2">{feature.title}</h3>
+                      <p className="text-center text-gray-600">
+                        {feature.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
       <ProductDetailsDialog
         open={openDetailsDialog}
