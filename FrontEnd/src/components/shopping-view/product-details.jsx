@@ -236,6 +236,7 @@ import { Label } from "../ui/label";
 import StarRatingComponent from "../common/star-rating";
 import { addReview, getReviews } from "@/store/shop/review-slice";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ProductDetailsDialog({ open, setOpen, productDetails }) {
   const [reviewMsg, setReviewMsg] = useState("");
@@ -244,15 +245,23 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shopCart);
   const { reviews } = useSelector((state) => state.shopReview);
-
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   function handleRatingChange(getRating) {
-    console.log(getRating, "getRating");
     setRating(getRating);
   }
 
   function handleAddToCart(getCurrentProductId, getTotalStock) {
+    if (!user) {
+      navigate("/auth/login");
+      toast({
+        title: "Please login to add items to the cart",
+        variant: "destructive",
+      });
+      return;
+    }
+
     let getCartItems = cartItems.items || [];
 
     if (getCartItems.length) {
@@ -294,6 +303,15 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
   }
 
   function handleAddReview() {
+    if (!user) {
+      navigate("/auth/login");
+      toast({
+        title: "Please login to add a review",
+        variant: "destructive",
+      });
+      return;
+    }
+
     dispatch(
       addReview({
         productId: productDetails?._id,
@@ -326,43 +344,97 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
-      <DialogContent className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 p-4 sm:p-8 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
-        {/* Product Image */}
-        <div className="relative overflow-hidden rounded-lg">
-          <img
-            src={productDetails?.image}
-            alt={productDetails?.title}
-            width={600}
-            height={600}
-            className="aspect-square w-full object-cover"
-          />
+      <DialogContent className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 max-w-[95vw] md:max-w-[90vw] lg:max-w-[80vw] xl:max-w-[70vw] 2xl:max-w-[60vw] h-[80vh] md:h-[85vh] overflow-y-auto">
+        {/* Product Image - Full width on mobile, half on larger screens */}
+        <div className="flex flex-col gap-4">
+          <div className="relative overflow-hidden rounded-lg bg-gray-100 flex items-center justify-center h-64 sm:h-80 md:h-96">
+            <img
+              src={productDetails?.image}
+              alt={productDetails?.title}
+              className="object-contain w-full h-full p-4"
+            />
+          </div>
+
+          {/* Price and Add to Cart - Show below image on mobile, but could be moved to right column if preferred */}
+          <div className="lg:hidden space-y-4">
+            <div className="flex items-center justify-between">
+              <p
+                className={`text-lg font-bold text-primary ${
+                  productDetails?.salePrice > 0 ? "line-through" : ""
+                }`}
+              >
+                ₦{productDetails?.price}
+              </p>
+              {productDetails?.salePrice > 0 && (
+                <p className="text-lg font-bold text-muted-foreground">
+                  ₦{productDetails?.salePrice}
+                </p>
+              )}
+            </div>
+
+            <div className="mt-2">
+              {productDetails?.totalStock === 0 ? (
+                <Button className="w-full opacity-60 cursor-not-allowed">
+                  Out of Stock
+                </Button>
+              ) : (
+                <Button
+                  className="w-full"
+                  onClick={() =>
+                    handleAddToCart(productDetails?._id, productDetails?.totalStock)
+                  }
+                >
+                  Add to Cart
+                </Button>
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* Product Details */}
-        <div className="space-y-4">
+        {/* Product Details - Full width on mobile, half on larger screens */}
+        <div className="flex flex-col gap-4 overflow-y-auto">
           <div>
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold">
+            <h1 className="text-xl md:text-2xl font-extrabold break-words">
               {productDetails?.title}
             </h1>
-            <p className="text-sm sm:text-base text-muted-foreground mt-2">
+            <p className="text-sm md:text-base text-muted-foreground mt-2">
               {productDetails?.description}
             </p>
           </div>
 
-          {/* Price */}
-          <div className="flex items-center justify-between">
-            <p
-              className={`text-lg sm:text-xl font-bold text-primary ${
-                productDetails?.salePrice > 0 ? "line-through" : ""
-              }`}
-            >
-              ₦{productDetails?.price}
-            </p>
-            {productDetails?.salePrice > 0 ? (
-              <p className="text-lg sm:text-xl font-bold text-muted-foreground">
-                ₦{productDetails?.salePrice}
+          {/* Price and Add to Cart - Hidden on mobile, shown in right column on larger screens */}
+          <div className="hidden lg:block space-y-4">
+            <div className="flex items-center justify-between">
+              <p
+                className={`text-lg md:text-xl font-bold text-primary ${
+                  productDetails?.salePrice > 0 ? "line-through" : ""
+                }`}
+              >
+                ₦{productDetails?.price}
               </p>
-            ) : null}
+              {productDetails?.salePrice > 0 && (
+                <p className="text-lg md:text-xl font-bold text-muted-foreground">
+                  ₦{productDetails?.salePrice}
+                </p>
+              )}
+            </div>
+
+            <div className="mt-2">
+              {productDetails?.totalStock === 0 ? (
+                <Button className="w-full opacity-60 cursor-not-allowed">
+                  Out of Stock
+                </Button>
+              ) : (
+                <Button
+                  className="w-full"
+                  onClick={() =>
+                    handleAddToCart(productDetails?._id, productDetails?.totalStock)
+                  }
+                >
+                  Add to Cart
+                </Button>
+              )}
+            </div>
           </div>
 
           {/* Rating */}
@@ -370,58 +442,42 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
             <div className="flex items-center gap-0.5">
               <StarRatingComponent rating={averageReview} />
             </div>
-            <span className="text-sm sm:text-base text-muted-foreground">
+            <span className="text-sm md:text-base text-muted-foreground">
               ({averageReview.toFixed(2)})
             </span>
           </div>
 
-          {/* Add to Cart Button */}
-          <div className="mt-4">
-            {productDetails?.totalStock === 0 ? (
-              <Button className="w-full opacity-60 cursor-not-allowed">
-                Out of Stock
-              </Button>
-            ) : (
-              <Button
-                className="w-full"
-                onClick={() =>
-                  handleAddToCart(productDetails?._id, productDetails?.totalStock)
-                }
-              >
-                Add to Cart
-              </Button>
-            )}
-          </div>
-
           <Separator />
 
-          {/* Reviews Section */}
-          <div className="max-h-[200px] sm:max-h-[300px] overflow-auto">
-            <h2 className="text-lg sm:text-xl font-bold mb-4">Reviews</h2>
-            <div className="space-y-4">
+          {/* Reviews Section with scrollable area */}
+          <div className="flex-1 overflow-y-auto">
+            <h2 className="text-lg font-bold mb-2 md:mb-4">Reviews</h2>
+            <div className="space-y-3 md:space-y-4">
               {reviews && reviews.length > 0 ? (
                 reviews.map((reviewItem) => (
-                  <div key={reviewItem._id} className="flex gap-4">
-                    <Avatar className="w-8 h-8 sm:w-10 sm:h-10 border">
+                  <div key={reviewItem._id} className="flex gap-3">
+                    <Avatar className="w-8 h-8 md:w-10 md:h-10 border">
                       <AvatarFallback>
                         {reviewItem?.userName[0].toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-bold">{reviewItem?.userName}</h3>
+                    <div className="space-y-1 flex-1">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-bold text-sm md:text-base">
+                          {reviewItem?.userName}
+                        </h3>
+                        <div className="flex items-center gap-0.5">
+                          <StarRatingComponent rating={reviewItem?.reviewValue} />
+                        </div>
                       </div>
-                      <div className="flex items-center gap-0.5">
-                        <StarRatingComponent rating={reviewItem?.reviewValue} />
-                      </div>
-                      <p className="text-sm sm:text-base text-muted-foreground">
+                      <p className="text-xs md:text-sm text-muted-foreground">
                         {reviewItem.reviewMessage}
                       </p>
                     </div>
                   </div>
                 ))
               ) : (
-                <p className="text-sm sm:text-base text-muted-foreground">
+                <p className="text-sm md:text-base text-muted-foreground">
                   No Reviews
                 </p>
               )}
@@ -429,8 +485,8 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
           </div>
 
           {/* Write a Review Section */}
-          <div className="mt-6 space-y-2">
-            <Label className="text-sm sm:text-base">Write a review</Label>
+          <div className="space-y-2 pt-2">
+            <Label className="text-sm md:text-base">Write a review</Label>
             <div className="flex gap-1">
               <StarRatingComponent
                 rating={rating}
@@ -442,11 +498,11 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
               value={reviewMsg}
               onChange={(event) => setReviewMsg(event.target.value)}
               placeholder="Write a review..."
-              className="text-sm sm:text-base"
+              className="text-sm md:text-base"
             />
             <Button
               onClick={handleAddReview}
-              disabled={reviewMsg.trim() === ""}
+              disabled={reviewMsg.trim() === "" || !user}
               className="w-full"
             >
               Submit
