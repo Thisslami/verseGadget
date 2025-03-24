@@ -154,7 +154,7 @@ import { brandOptionsMap, categoryOptionsMap } from "@/config";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+
 
 function ShoppingProductTile({ product, handleGetProductDetails, handleAddToCart }) {
   const discountPercentage =
@@ -234,21 +234,6 @@ function ShoppingProductTile({ product, handleGetProductDetails, handleAddToCart
               )}
             </motion.div>
           )}
-
-          {/* Tooltip on hover */}
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <motion.div
-                whileHover={{ scale: 1.1, rotate: 3 }}
-                className="absolute bottom-2 right-2 p-1 text-xs bg-gray-900 text-white rounded-lg"
-              >
-                Hover for details
-              </motion.div>
-            </TooltipTrigger>
-            <TooltipContent>
-              {product?.description || "No description available"}
-            </TooltipContent>
-          </Tooltip>
         </div>
 
         <CardContent className="p-2 sm:p-4">
