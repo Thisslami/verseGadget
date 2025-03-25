@@ -256,7 +256,7 @@ function ShoppingHome() {
       {/* Trending Products */}
       <section className="py-8 sm:py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8">Trending Products</h2>
+          <h2 className="text-2xl sm:text-2xl font-bold justify-start mb-6 sm:mb-8">Trending Products</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
             {displayedProducts.map((productItem, index) => (
               <motion.div
@@ -281,7 +281,7 @@ function ShoppingHome() {
       <section className="py-8 sm:py-12 bg-gray-50 px-4 sm:px-6">
   <div className="max-w-7xl mx-auto">
     <div className="flex justify-start mb-6 sm:mb-8">
-      <h2 className="text-2xl sm:text-3xl font-bold">Shop by category</h2>
+      <h2 className="text-2xl sm:text-2xl font-bold">Shop by category</h2>
     </div>
     <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 xs:gap-3 sm:gap-4">
       {categoriesWithIcon.map(({ id, label, icon: Icon }) => (
@@ -295,7 +295,7 @@ function ShoppingHome() {
             className="cursor-pointer hover:shadow-md h-full"
           >
             <CardContent className="flex flex-col items-center justify-center p-2 sm:p-3">
-              <Icon className="w-5 h-5 sm:w-6 sm:h-6 mb-1 text-primary" />
+              <Icon className="w-5 h-5 sm:w-6 sm:h-6 mb-1 text-peach-500" />
               <span className="text-[10px] xs:text-xs sm:text-sm font-medium text-center leading-tight">
                 {label}
               </span>
@@ -310,7 +310,7 @@ function ShoppingHome() {
 <section className="py-8 sm:py-12 bg-gray-50 px-4 sm:px-6">
   <div className="max-w-7xl mx-auto">
     <div className="flex justify-start mb-6 sm:mb-8">
-      <h2 className="text-2xl sm:text-3xl font-bold">Shop by Brand</h2>
+      <h2 className="text-2xl sm:text-2xl font-bold">Shop by Brand</h2>
     </div>
     <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 xs:gap-3 sm:gap-4">
       {brandsWithIcon.map(({ id, label, icon: Icon }) => (
@@ -324,7 +324,7 @@ function ShoppingHome() {
             className="cursor-pointer hover:shadow-md h-full"
           >
             <CardContent className="flex flex-col items-center justify-center p-2 sm:p-3">
-              <Icon className="w-5 h-5 sm:w-6 sm:h-6 mb-1 text-primary" />
+              <Icon className="w-5 h-5 sm:w-6 sm:h-6 mb-1 text-peach-500" />
               <span className="text-[10px] xs:text-xs sm:text-sm font-medium text-center leading-tight">
                 {label}
               </span>
@@ -339,7 +339,7 @@ function ShoppingHome() {
       {/* Featured Products */}
       <section className="py-8 sm:py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl sm:text-2xl font-bold text-center mb-6 sm:mb-8">Featured Products</h2>
+          <h2 className="text-2xl sm:text-2xl font-bold justify-start mb-6 sm:mb-8">Featured Products</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
             {featuredProducts.map((productItem, index) => (
               <motion.div
@@ -377,7 +377,7 @@ function ShoppingHome() {
                 >
                   <Card className="w-full">
                     <CardContent className="flex flex-col items-center p-4 sm:p-6">
-                      <Icon className="w-8 h-8 sm:w-10 sm:h-10 mb-3 text-primary" />
+                      <Icon className="w-8 h-8 sm:w-10 sm:h-10 mb-3 text-peach-500" />
                       <h3 className="font-bold text-base sm:text-lg mb-2 text-center">{feature.title}</h3>
                       <p className="text-xs sm:text-sm text-center text-gray-600">
                         {feature.description}

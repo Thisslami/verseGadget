@@ -32,7 +32,7 @@ const ProductSchema = new mongoose.Schema(
     averageReview: Number,
     condition: {
       type: String,
-      enum: ["Brand New", "Used"], // Only accept these two values
+      enum: ["Brand New", "Premium Used"], // Only accept these two values
       default: "Brand New", // Default to Brand New
     },
   },

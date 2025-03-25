@@ -62,8 +62,8 @@ export const addProductFormElements = [
       { id: "laptops", label: "Laptops" },
       { id: "tablets", label: "Tablets" },
       { id: "smartwatches", label: "smartwatches" },
+      { id: "gaming", label: "Gaming" },
       { id: "accessories", label: "Accessories" },
-      { id: "products", label: "products" },
     ],
   },
   {
@@ -109,7 +109,7 @@ export const addProductFormElements = [
     componentType: "select",
     options: [
       { id: "Brand New", label: "Brand New" },
-      { id: "Used", label: "Used" },
+      { id: "Premium Used", label: "Premium Used" },
     ],
   },
 ];
@@ -157,8 +157,8 @@ export const categoryOptionsMap = {
   laptops: "Laptops",
   tablets: "Tablets",
   smartwatches: "Smartwatches",
+  gaming: "Gaming",
   accessories: "Accessories",
-  products: "Products",
   other: "Other",
 };
 
@@ -181,7 +181,9 @@ export const filterOptions = {
     { id: "laptops", label: "Laptops" },
     { id: "tablets", label: "Tablets" },
     { id: "smartwatches", label: "Smartwatches" },
+    { id: "gaming", label: "Gaming" },
     { id: "accessories", label: "Accessories" },
+    
   ],
   brand: [
     { id: "apple", label: "Apple" },
@@ -197,7 +199,7 @@ export const filterOptions = {
   condition: [
     // New condition filter added
     { id: "Brand New", label: "Brand New" },
-    { id: "Used", label: "Used" },
+    { id: "Premium Used", label: "Premium Used" },
   ],
 };
 
