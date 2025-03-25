@@ -88,7 +88,7 @@ const AboutPage = () => {
             key={index}
             className="bg-card rounded-2xl shadow-lg p-8 text-center hover:shadow-xl transition duration-300"
           >
-            <item.Icon size={48} className="text-primary mx-auto mb-4" />
+            <item.Icon size={48} className="text-peach-500 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-primary mb-3">
               {item.title}
             </h3>
@@ -141,7 +141,7 @@ const AboutPage = () => {
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.7 }}
-        className="text-center bg-gradient-to-r from-primary to-secondary rounded-2xl p-12 text-white shadow-xl"
+        className="text-center bg-gradient-to-r from-peach-600 to-secondary rounded-2xl p-12 text-white shadow-xl"
       >
         <h2 className="text-3xl font-extrabold mb-4">
           Ready to Upgrade Your Tech?
@@ -153,7 +153,7 @@ const AboutPage = () => {
         <div className="flex gap-4 justify-center">
           <Button
             asChild
-            className="bg-white text-primary font-bold hover:bg-gray-400 transition-all duration-300 shadow-lg"
+            className="bg-white text-primary font-bold hover:bg-peach-400 transition-all duration-300 shadow-lg"
           >
             <Link to="/shop/home">Shop Now 🛒</Link>
           </Button>
@@ -161,7 +161,7 @@ const AboutPage = () => {
           <Button
             asChild
             variant="outline"
-            className="border-white text-primary hover:bg-gray-400 hover:text-primary transition-all duration-300"
+            className="border-white text-primary hover:bg-peach-400 hover:text-primary transition-all duration-300"
           >
             <a href="mailto:gadgetsgridphones@gmail.com">Contact Us 📩</a>
           </Button>

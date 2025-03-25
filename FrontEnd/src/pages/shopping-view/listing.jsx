@@ -1,5 +1,290 @@
 
 
+// import { filterOptions } from "@/config";
+// import ProductFilter from "@/components/shopping-view/filter";
+// import { Button } from "@/components/ui/button";
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuRadioGroup,
+//   DropdownMenuRadioItem,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu";
+// import { ArrowUpDown, Loader2 } from "lucide-react"; // Import Loader2 from Lucide
+// import { sortOptions } from "@/config";
+// import { useDispatch, useSelector } from "react-redux";
+// import { useEffect, useState } from "react";
+// import {
+//   fetchAllFilteredProducts,
+//   fetchProductDetails,
+// } from "@/store/shop/products-slice";
+// import ShoppingProductTile from "@/components/shopping-view/product-tile";
+// import { useSearchParams } from "react-router-dom";
+// import ProductDetailsDialog from "@/components/shopping-view/product-details";
+// import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
+// import { useToast } from "@/components/ui/use-toast";
+// import { motion } from "framer-motion";
+// import { useNavigate } from "react-router-dom";
+
+
+
+// function createSearchParamsHelper(filterParams) {
+//   const queryParams = [];
+//   for (const [key, value] of Object.entries(filterParams)) {
+//     if (Array.isArray(value) && value.length > 0) {
+//       value.forEach((item) => {
+//         queryParams.push(`${key}=${encodeURIComponent(item)}`);
+//       });
+//     }
+//   }
+//   return queryParams.join("&");
+// }
+
+// function ShoppingListing() {
+//   const dispatch = useDispatch();
+//   const { productList, productDetails } = useSelector(
+//     (state) => state.shopProducts
+//   );
+//   const { cartItems } = useSelector((state) => state.shopCart);
+//   const { user } = useSelector((state) => state.auth);
+//   const [filters, setFilters] = useState({});
+//   const [sort, setSort] = useState(null);
+//   const [searchParams, setSearchParams] = useSearchParams();
+//   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+//   const { toast } = useToast();
+//   const navigate = useNavigate();
+//   const categorySearchParams = searchParams.get("category");
+
+//   // Pagination state
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const [productsPerPage] = useState(8); // Number of products to show per page
+//   const [isLoading, setIsLoading] = useState(false); // Loading state for pagination
+
+//   function handleSort(value) {
+//     setSort(value);
+//   }
+
+//   function handleFilter(getSectionId, getCurrentOption, checked) {
+//     let cpyFilters = { ...filters };
+
+//     if (getSectionId === "condition") {
+//       cpyFilters[getSectionId] = checked ? [getCurrentOption] : [];
+//     } else {
+//       const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(getSectionId);
+//       if (indexOfCurrentSection === -1) {
+//         cpyFilters = {
+//           ...cpyFilters,
+//           [getSectionId]: [getCurrentOption],
+//         };
+//       } else {
+//         const indexOfCurrentOption =
+//           cpyFilters[getSectionId].indexOf(getCurrentOption);
+//         if (indexOfCurrentOption === -1) {
+//           cpyFilters[getSectionId].push(getCurrentOption);
+//         } else {
+//           cpyFilters[getSectionId].splice(indexOfCurrentOption, 1);
+//         }
+//       }
+//     }
+//     setFilters(cpyFilters);
+//     sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
+//   }
+
+//   function handleGetProductDetails(getCurrentProductId) {
+//     dispatch(fetchProductDetails(getCurrentProductId));
+//   }
+
+//   function handleAddToCart(getCurrentProductId, getTotalStock) {
+//     if (!user) {
+//       navigate("/auth/login");
+//       toast({
+//         title: "Please login to add items to the cart.",
+//         variant: "destructive",
+//       });
+//       return;
+//     }
+
+//     let getCartItems = cartItems.items || [];
+//     if (getCartItems.length) {
+//       const indexOfCurrentItem = getCartItems.findIndex(
+//         (item) => item.productId === getCurrentProductId
+//       );
+//       if (indexOfCurrentItem > -1) {
+//         const getQuantity = getCartItems[indexOfCurrentItem].quantity;
+//         if (getQuantity + 1 > getTotalStock) {
+//           toast({
+//             title: `Only ${getQuantity} quantity can be added for this item`,
+//             variant: "destructive",
+//           });
+//           return;
+//         }
+//       }
+//     }
+
+//     dispatch(
+//       addToCart({
+//         userId: user?.id,
+//         productId: getCurrentProductId,
+//         quantity: 1,
+//       })
+//     ).then((data) => {
+//       if (data?.payload?.success) {
+//         dispatch(fetchCartItems(user?.id));
+//         toast({ title: "Product added to cart!" });
+//       }
+//     });
+//   }
+
+//   useEffect(() => {
+//     setSort("price-lowtohigh");
+//     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
+//   }, [categorySearchParams]);
+
+//   useEffect(() => {
+//     if (filters && Object.keys(filters).length > 0) {
+//       const createQueryString = createSearchParamsHelper(filters);
+//       setSearchParams(new URLSearchParams(createQueryString));
+//     }
+//   }, [filters]);
+
+//   useEffect(() => {
+//     if (filters !== null && sort !== null) {
+//       dispatch(
+//         fetchAllFilteredProducts({ filterParams: filters, sortParams: sort })
+//       );
+//     }
+//   }, [dispatch, sort, filters]);
+
+//   useEffect(() => {
+//     if (productDetails !== null) setOpenDetailsDialog(true);
+//   }, [productDetails]);
+
+//   // Pagination logic
+//   const indexOfLastProduct = currentPage * productsPerPage;
+//   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+//   const currentProducts = productList?.slice(indexOfFirstProduct, indexOfLastProduct);
+
+//   const totalPages = Math.ceil(productList?.length / productsPerPage);
+
+//   const handleNextPage = () => {
+//     if (currentPage < totalPages) {
+//       setIsLoading(true); // Enable loading state
+//       setCurrentPage(currentPage + 1);
+//     }
+//   };
+
+//   const handlePreviousPage = () => {
+//     if (currentPage > 1) {
+//       setIsLoading(true); // Enable loading state
+//       setCurrentPage(currentPage - 1);
+//     }
+//   };
+
+//   // Scroll to top and disable loading state after a delay
+//   useEffect(() => {
+//     if (isLoading) {
+//       window.scrollTo({ top: 0, behavior: "smooth" });
+
+//       // Add a delay before disabling the loading state
+//       const timeout = setTimeout(() => {
+//         setIsLoading(false); // Disable loading state after delay
+//       }, 1000); // 1-second delay
+
+//       return () => clearTimeout(timeout); // Cleanup timeout
+//     }
+//   }, [currentPage, isLoading]);
+
+//   return (
+//     <motion.div
+//       initial={{ opacity: 0 }}
+//       animate={{ opacity: 1 }}
+//       exit={{ opacity: 0 }}
+//       className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6"
+//     >
+//       <ProductFilter filters={filters} handleFilter={handleFilter} filterOptions={filterOptions} />
+//       <motion.div
+//         initial={{ y: 10, opacity: 0 }}
+//         animate={{ y: 0, opacity: 1 }}
+//         transition={{ duration: 0.3 }}
+//         className="bg-background w-full rounded-lg shadow-sm"
+//       >
+//         <div className="p-4 border-b flex items-center justify-between">
+//           <h2 className="text-lg font-extrabold ">All Products</h2>
+//           <div className="flex items-center gap-3">
+//             <span className="text-muted-foreground">{productList?.length}</span>
+//             <DropdownMenu>
+//               <DropdownMenuTrigger asChild>
+//                 <Button variant="outline" size="sm" className="flex items-center gap-1">
+//                   <ArrowUpDown className="h-4 w-4" />
+//                   <span>Sort by</span>
+//                 </Button>
+//               </DropdownMenuTrigger>
+//               <DropdownMenuContent align="end" className="w-[200px]">
+//                 <DropdownMenuRadioGroup value={sort} onValueChange={handleSort}>
+//                   {sortOptions.map((sortItem) => (
+//                     <DropdownMenuRadioItem value={sortItem.id} key={sortItem.id}>
+//                       {sortItem.label}
+//                     </DropdownMenuRadioItem>
+//                   ))}
+//                 </DropdownMenuRadioGroup>
+//               </DropdownMenuContent>
+//             </DropdownMenu>
+//           </div>
+//         </div>
+//         {isLoading ? (
+//           <div className="flex items-center justify-center h-64">
+//             <Loader2 className="h-8 w-8 animate-spin" /> {/* Lucide spinner */}
+//           </div>
+//         ) : (
+//           <motion.div
+//             initial={{ opacity: 0 }}
+//             animate={{ opacity: 1 }}
+//             transition={{ duration: 0.4 }}
+//             className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4"
+//           >
+//             {currentProducts?.map((productItem) => (
+//               <ShoppingProductTile
+//                 key={productItem.id}
+//                 handleGetProductDetails={handleGetProductDetails}
+//                 product={productItem}
+//                 handleAddToCart={handleAddToCart}
+//               />
+//             ))}
+//           </motion.div>
+//         )}
+//         {/* Pagination Controls */}
+//         <div className="flex justify-center items-center gap-4 p-4">
+//           <Button
+//             variant="outline"
+//             onClick={handlePreviousPage}
+//             disabled={currentPage === 1 || isLoading}
+//           >
+//             Previous
+//           </Button>
+//           <span className="text-sm text-muted-foreground">
+//             Page {currentPage} of {totalPages}
+//           </span>
+//           <Button
+//             variant="outline"
+//             onClick={handleNextPage}
+//             disabled={currentPage === totalPages || isLoading}
+//           >
+//             Next
+//           </Button>
+//         </div>
+//       </motion.div>
+//       <ProductDetailsDialog
+//         open={openDetailsDialog}
+//         setOpen={setOpenDetailsDialog}
+//         productDetails={productDetails}
+//       />
+//     </motion.div>
+//   );
+// }
+
+// export default ShoppingListing;
+
+
 import { filterOptions } from "@/config";
 import ProductFilter from "@/components/shopping-view/filter";
 import { Button } from "@/components/ui/button";
@@ -10,7 +295,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, Loader2 } from "lucide-react"; // Import Loader2 from Lucide
+import { ArrowUpDown, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { sortOptions } from "@/config";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -55,8 +340,8 @@ function ShoppingListing() {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(8); // Number of products to show per page
-  const [isLoading, setIsLoading] = useState(false); // Loading state for pagination
+  const [productsPerPage] = useState(8);
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleSort(value) {
     setSort(value);
@@ -133,6 +418,26 @@ function ShoppingListing() {
     });
   }
 
+  // Pagination handlers
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setIsLoading(true);
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setIsLoading(true);
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setIsLoading(true);
+    setCurrentPage(pageNumber);
+  };
+
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
@@ -161,34 +466,14 @@ function ShoppingListing() {
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = productList?.slice(indexOfFirstProduct, indexOfLastProduct);
-
   const totalPages = Math.ceil(productList?.length / productsPerPage);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setIsLoading(true); // Enable loading state
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setIsLoading(true); // Enable loading state
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  // Scroll to top and disable loading state after a delay
+  // Scroll to top on page change
   useEffect(() => {
     if (isLoading) {
       window.scrollTo({ top: 0, behavior: "smooth" });
-
-      // Add a delay before disabling the loading state
-      const timeout = setTimeout(() => {
-        setIsLoading(false); // Disable loading state after delay
-      }, 1000); // 1-second delay
-
-      return () => clearTimeout(timeout); // Cleanup timeout
+      const timeout = setTimeout(() => setIsLoading(false), 1000);
+      return () => clearTimeout(timeout);
     }
   }, [currentPage, isLoading]);
 
@@ -207,7 +492,7 @@ function ShoppingListing() {
         className="bg-background w-full rounded-lg shadow-sm"
       >
         <div className="p-4 border-b flex items-center justify-between">
-          <h2 className="text-lg font-extrabold ">All Products</h2>
+          <h2 className="text-lg font-extrabold">All Products</h2>
           <div className="flex items-center gap-3">
             <span className="text-muted-foreground">{productList?.length}</span>
             <DropdownMenu>
@@ -229,9 +514,10 @@ function ShoppingListing() {
             </DropdownMenu>
           </div>
         </div>
+
         {isLoading ? (
           <div className="flex items-center justify-center h-64">
-            <Loader2 className="h-8 w-8 animate-spin" /> {/* Lucide spinner */}
+            <Loader2 className="h-8 w-8 animate-spin" />
           </div>
         ) : (
           <motion.div
@@ -250,27 +536,98 @@ function ShoppingListing() {
             ))}
           </motion.div>
         )}
-        {/* Pagination Controls */}
-        <div className="flex justify-center items-center gap-4 p-4">
-          <Button
-            variant="outline"
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1 || isLoading}
-          >
-            Previous
-          </Button>
-          <span className="text-sm text-muted-foreground">
-            Page {currentPage} of {totalPages}
-          </span>
-          <Button
-            variant="outline"
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages || isLoading}
-          >
-            Next
-          </Button>
+
+        {/* Unified Pagination - same for all screen sizes */}
+        <div className="flex flex-col sm:flex-row items-center justify-between px-4 py-3 bg-background border-t rounded-b-lg gap-3">
+          <div className="w-full sm:w-auto">
+            <p className="text-sm text-muted-foreground text-center sm:text-left">
+              Showing <span className="font-medium">{(currentPage - 1) * productsPerPage + 1}</span> to{' '}
+              <span className="font-medium">
+                {Math.min(currentPage * productsPerPage, productList?.length || 0)}
+              </span>{' '}
+              of <span className="font-medium">{productList?.length || 0}</span> results
+            </p>
+          </div>
+          
+          <div className="flex items-center justify-center w-full sm:w-auto space-x-1">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1 || isLoading}
+              className="px-2 sm:px-3 py-1.5 rounded-md"
+            >
+              {isLoading && currentPage > 1 ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <ChevronLeft className="h-4 w-4" />
+              )}
+              <span className="sr-only sm:not-sr-only">Previous</span>
+            </Button>
+            
+            <div className="flex items-center space-x-1">
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                let pageNum;
+                if (totalPages <= 5) {
+                  pageNum = i + 1;
+                } else if (currentPage <= 3) {
+                  pageNum = i + 1;
+                } else if (currentPage >= totalPages - 2) {
+                  pageNum = totalPages - 4 + i;
+                } else {
+                  pageNum = currentPage - 2 + i;
+                }
+                
+                return (
+                  <Button
+                    key={pageNum}
+                    variant={currentPage === pageNum ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => !isLoading && handlePageChange(pageNum)}
+                    disabled={isLoading}
+                    className={`h-8 w-8 sm:h-9 sm:w-9 p-0 text-xs sm:text-sm ${
+                      currentPage === pageNum ? 'bg-primary text-primary-foreground' : ''
+                    }`}
+                  >
+                    {pageNum}
+                  </Button>
+                );
+              })}
+              
+              {totalPages > 5 && currentPage < totalPages - 2 && (
+                <>
+                  <span className="px-1 sm:px-2 text-sm text-muted-foreground">...</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => !isLoading && handlePageChange(totalPages)}
+                    disabled={isLoading}
+                    className="h-8 w-8 sm:h-9 sm:w-9 p-0 text-xs sm:text-sm"
+                  >
+                    {totalPages}
+                  </Button>
+                </>
+              )}
+            </div>
+            
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages || isLoading}
+              className="px-2 sm:px-3 py-1.5 rounded-md"
+            >
+              <span className="sr-only sm:not-sr-only">Next</span>
+              {isLoading && currentPage < totalPages ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <ChevronRight className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
         </div>
       </motion.div>
+      
       <ProductDetailsDialog
         open={openDetailsDialog}
         setOpen={setOpenDetailsDialog}

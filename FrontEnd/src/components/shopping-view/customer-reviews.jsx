@@ -107,11 +107,11 @@ const CustomerReviews = () => {
           </Swiper>
         </div>
 
-        <div className="text-center mt-8">
-          <button className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-300 font-medium shadow-md hover:shadow-lg">
+        {/* <div className="text-center mt-8">
+          <button className="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-300 font-medium shadow-md hover:shadow-lg">
             View All Reviews
           </button>
-        </div>
+        </div> */}
       </div>
     </section>
   );

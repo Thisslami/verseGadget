@@ -207,7 +207,7 @@ function ShoppingOrders() {
                             variant="default"
                             size="sm"
                             onClick={() => handleFetchOrderDetails(orderItem?._id)}
-                            className="shadow-sm hover:bg-blue-500 transition"
+                            className="shadow-sm hover:bg-peach-600 transition"
                           >
                             View Details
                           </Button>
