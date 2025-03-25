@@ -87,7 +87,7 @@ function ShoppingAccount() {
                 <ShoppingOrders />
                 {/* Return to Shop Button */}
                 <div className="mt-6 flex justify-center">
-                  <Button asChild className="bg-[#FF9F80] hover:bg-[#FFCBA4] text-white font-semibold">
+                  <Button asChild className="bg-peach-500 hover:bg-peach-300 text-white font-semibold">
                     <Link to="/shop/home">← Return to Shop</Link>
                   </Button>
                 </div>

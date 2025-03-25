@@ -297,28 +297,28 @@ function ShoppingCheckout() {
       <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg mb-5">
         <span
           className={`font-semibold ${
-            currentStep >= 1 ? "text-blue-600" : "text-gray-500"
+            currentStep >= 1 ? "text-peach-600" : "text-gray-500"
           }`}
         >
           1. Cart
         </span>
         <span
           className={`font-semibold ${
-            currentStep >= 2 ? "text-blue-600" : "text-gray-500"
+            currentStep >= 2 ? "text-peach-600" : "text-gray-500"
           }`}
         >
           2. Address
         </span>
         <span
           className={`font-semibold ${
-            currentStep >= 3 ? "text-blue-600" : "text-gray-500"
+            currentStep >= 3 ? "text-peach-600" : "text-gray-500"
           }`}
         >
           3. Payment
         </span>
         <span
           className={`font-semibold ${
-            currentStep >= 4 ? "text-blue-600" : "text-gray-500"
+            currentStep >= 4 ? "text-peach-600" : "text-gray-500"
           }`}
         >
           4. Confirmation
@@ -366,7 +366,7 @@ function ShoppingCheckout() {
           <div className="mt-4 w-full">
             <Button
               onClick={handleInitiatepaystackPayment}
-              className="w-full bg-black hover:bg-indigo-700 text-white"
+              className="w-full  hover:bg-peach-600 text-white"
             >
               {isPaymentStart
                 ? "Processing Paystack Payment..."

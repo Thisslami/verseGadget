@@ -302,7 +302,7 @@ function HeaderRightContent({ closeSheet }) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="bg-black">
-            <AvatarFallback className="bg-black text-white font-extrabold">
+            <AvatarFallback className="bg-peach-600 text-white font-extrabold">
               {user?.userName ? user?.userName[0].toUpperCase() : "U"}
             </AvatarFallback>
           </Avatar>
@@ -361,7 +361,7 @@ function ShoppingHeader() {
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
         <Link to="/shop/home" className="flex items-center gap-2">
           <img src={GadgetgridLogo} alt="Gadgetsgrid Logo" className="h-10 w-10" />
-          <span className="font-extrabold">Gadgets Grid</span>
+          <span className="font-extrabold">Gadgetsgrid</span>
         </Link>
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
           <SheetTrigger asChild>

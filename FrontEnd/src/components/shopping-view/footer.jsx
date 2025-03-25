@@ -1,3 +1,4 @@
+
 // import { motion } from "framer-motion";
 // import {
 //   FaFacebook,
@@ -10,6 +11,7 @@
 // import { Button } from "@/components/ui/button";
 // import { Card, CardContent } from "@/components/ui/card";
 // import { Separator } from "@/components/ui/separator";
+// import GadgetgridLogo from "../../assets/Gadgetgrid.jpg"; // Import the Image component from Next.js
 
 // const Footer = () => {
 //   return (
@@ -28,11 +30,19 @@
 //         >
 //           <Card className="bg-transparent border-none text-white">
 //             <CardContent>
-//               <h2 className="text-2xl font-semibold mb-3">GADGET GRID</h2>
-//               <p className="text-sm text-gray-300 leading-relaxed">
-//                 Welcome to GADGET GRID Phone and accessories, your go-to place for the latest and
-//                 greatest in tech.
-//               </p>
+//               <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-4">
+//                 <img
+//                   src={GadgetgridLogo}
+//                   alt="Gadget Grid Logo"
+//                   width={120}
+//                   height={30}
+//                   className="object-contain"
+//                 />
+//                 <p className="text-sm text-gray-300 leading-relaxed">
+//                   Welcome to GADGETS GRID Phone and accessories, your go-to place
+//                   for the latest and greatest in tech.
+//                 </p>
+//               </div>
 //             </CardContent>
 //           </Card>
 //         </motion.div>
@@ -59,7 +69,7 @@
 //                 <li className="flex items-center justify-center md:justify-start">
 //                   <FaPhone className="w-5 h-5 mr-2 text-white" />
 //                   <a
-//                     href="tel:+2347011294708"
+//                     href="tel:+2349025765871"
 //                     className="hover:text-gray-200 transition"
 //                   >
 //                     07047005444
@@ -137,8 +147,7 @@
 //       {/* Separator and Copyright */}
 //       <Separator className="my-8 bg-gray-700" />
 //       <p className="text-center text-gray-400 text-sm">
-//         &copy; {new Date().getFullYear()} GADGET GRID. All rights
-//         reserved.
+//         &copy; {new Date().getFullYear()} GADGET GRID. All rights reserved.
 //       </p>
 //     </motion.footer>
 //   );
@@ -158,7 +167,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import GadgetgridLogo from "../../assets/Gadgetgrid.jpg"; // Import the Image component from Next.js
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import GadgetgridLogo from "../../assets/Gadgetgrid.jpg";
 
 const Footer = () => {
   return (
@@ -168,12 +183,13 @@ const Footer = () => {
       transition={{ duration: 0.5 }}
       className="bg-gray-900 text-white py-8 mt-auto"
     >
-      <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+      <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
         {/* About Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
+          className="md:col-span-1"
         >
           <Card className="bg-transparent border-none text-white">
             <CardContent>
@@ -199,6 +215,7 @@ const Footer = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
+          className="md:col-span-1"
         >
           <Card className="bg-transparent border-none text-white">
             <CardContent>
@@ -241,6 +258,7 @@ const Footer = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
+          className="md:col-span-1"
         >
           <Card className="bg-transparent border-none text-white">
             <CardContent>
@@ -286,6 +304,53 @@ const Footer = () => {
                   </Button>
                 </a>
               </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Accordion Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="md:col-span-1"
+        >
+          <Card className="bg-transparent border-none text-white">
+            <CardContent>
+              <Accordion type="single" collapsible>
+                <AccordionItem value="return-policy">
+                  <AccordionTrigger className="text-white font-bold hover:no-underline">
+                    Return Policy
+                  </AccordionTrigger>
+                  <AccordionContent className="text-gray-300">
+                    <p>
+                      We offer a 7-day return policy for all products. If you're not satisfied with your purchase, you can return it in its original condition for a exchange.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="delivery-info">
+                  <AccordionTrigger className="text-white font-bold hover:no-underline">
+                    Delivery Information
+                  </AccordionTrigger>
+                  <AccordionContent className="text-gray-300">
+                    <p>
+                      Our delivery time is <strong>2-3 business days</strong>. We ensure quick and secure shipping so you receive your gadgets in top condition. Tracking details will be provided once your order is shipped.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="terms">
+                  <AccordionTrigger className="text-white font-bold hover:no-underline">
+                    Terms and Conditions
+                  </AccordionTrigger>
+                  <AccordionContent className="text-gray-300">
+                    <p>
+                      By using our website, you agree to our terms and conditions. All products are subject to availability.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </CardContent>
           </Card>
         </motion.div>
