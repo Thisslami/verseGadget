@@ -256,7 +256,7 @@ function ShoppingHome() {
       {/* Trending Products */}
       <section className="py-8 sm:py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl sm:text-2xl font-bold justify-start mb-6 sm:mb-8">Trending Products</h2>
+          <h2 className="text-xl sm:text-2xl font-bold justify-start mb-6 sm:mb-8">Top Products</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
             {displayedProducts.map((productItem, index) => (
               <motion.div
@@ -281,7 +281,7 @@ function ShoppingHome() {
       <section className="py-8 sm:py-12 bg-gray-50 px-4 sm:px-6">
   <div className="max-w-7xl mx-auto">
     <div className="flex justify-start mb-6 sm:mb-8">
-      <h2 className="text-2xl sm:text-2xl font-bold">Shop by category</h2>
+      <h2 className="text-xl sm:text-2xl font-bold">Shop by category</h2>
     </div>
     <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 xs:gap-3 sm:gap-4">
       {categoriesWithIcon.map(({ id, label, icon: Icon }) => (
@@ -310,7 +310,7 @@ function ShoppingHome() {
 <section className="py-8 sm:py-12 bg-gray-50 px-4 sm:px-6">
   <div className="max-w-7xl mx-auto">
     <div className="flex justify-start mb-6 sm:mb-8">
-      <h2 className="text-2xl sm:text-2xl font-bold">Shop by Brand</h2>
+      <h2 className="text-xl sm:text-2xl font-bold">Shop by Brand</h2>
     </div>
     <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 xs:gap-3 sm:gap-4">
       {brandsWithIcon.map(({ id, label, icon: Icon }) => (
@@ -339,7 +339,7 @@ function ShoppingHome() {
       {/* Featured Products */}
       <section className="py-8 sm:py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl sm:text-2xl font-bold justify-start mb-6 sm:mb-8">Featured Products</h2>
+          <h2 className="text-xl sm:text-2xl font-bold justify-start mb-6 sm:mb-8">Featured Products</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
             {featuredProducts.map((productItem, index) => (
               <motion.div
