@@ -366,7 +366,7 @@ function ShoppingProductTile({ product, handleGetProductDetails, handleAddToCart
             <span
               className={`${
                 product?.salePrice > 0 ? "line-through" : ""
-              } text-xs sm:text-sm font-semibold text-peach-600`}
+              } text-xs sm:text-sm font-semibold text-peach-500`}
             >
               ₦{product?.price}
             </span>

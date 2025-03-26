@@ -211,6 +211,43 @@ import { Label } from "../ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "../ui/dialog";
 import GadgetgridLogo from '../../assets/Gadgetgrid.jpg';
 
+// function MenuItems({ closeSheet }) {
+//   const navigate = useNavigate();
+//   const location = useLocation();
+//   const [searchParams, setSearchParams] = useSearchParams();
+
+//   function handleNavigate(getCurrentMenuItem) {
+//     sessionStorage.removeItem("filters");
+
+//     if (getCurrentMenuItem.id !== "home" && getCurrentMenuItem.id !== "products" && getCurrentMenuItem.id !== "about") {
+//       const currentFilter = { category: [getCurrentMenuItem.id] };
+//       sessionStorage.setItem("filters", JSON.stringify(currentFilter));
+
+//       if (location.pathname.includes("listing")) {
+//         setSearchParams(new URLSearchParams(`?category=${getCurrentMenuItem.id}`));
+//         return;
+//       }
+//     }
+
+//     navigate(getCurrentMenuItem.path);
+//     closeSheet(); // Close the sheet after navigation
+//   }
+
+//   return (
+//     <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
+//       {shoppingViewHeaderMenuItems.map((menuItem) => (
+//         <Label
+//           onClick={() => handleNavigate(menuItem)}
+//           className="text-sm font-medium cursor-pointer flex items-center gap-2"
+//           key={menuItem.id}
+//         >
+//           {menuItem.label}
+//         </Label>
+//       ))}
+//     </nav>
+//   );
+// }
+
 function MenuItems({ closeSheet }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -236,17 +273,19 @@ function MenuItems({ closeSheet }) {
   return (
     <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
-        <Label
-          onClick={() => handleNavigate(menuItem)}
-          className="text-sm font-medium cursor-pointer flex items-center gap-2"
-          key={menuItem.id}
-        >
-          {menuItem.label}
-        </Label>
+        <div key={menuItem.id} className="relative">
+          <Label
+            onClick={() => handleNavigate(menuItem)}
+            className="text-sm font-medium cursor-pointer flex items-center gap-2 pb-1 hover:text-primary transition-colors after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+          >
+            {menuItem.label}
+          </Label>
+        </div>
       ))}
     </nav>
   );
 }
+
 
 function HeaderRightContent({ closeSheet }) {
   const { user } = useSelector((state) => state.auth);
@@ -302,7 +341,7 @@ function HeaderRightContent({ closeSheet }) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="bg-black">
-            <AvatarFallback className="bg-peach-600 text-white font-extrabold">
+            <AvatarFallback className="bg-peach-500 text-white font-extrabold">
               {user?.userName ? user?.userName[0].toUpperCase() : "U"}
             </AvatarFallback>
           </Avatar>
