@@ -29,11 +29,8 @@ import Footer from "./footer";
 import { FaWhatsapp } from "react-icons/fa";
 
 const ShoppingLayout = () => {
-  const whatsappMessage = "Hi, I would love to place an order";
-  const whatsappNumber = "2349025765871"; // Your WhatsApp number with country code
-
   return (
-    <div className="flex flex-col min-h-screen bg-white overflow-hidden relative">
+    <div className="flex flex-col min-h-screen bg-white overflow-hidden">
       {/* Common header */}
       <ShoppingHeader />
 
@@ -42,19 +39,18 @@ const ShoppingLayout = () => {
         <Outlet />
       </main>
 
-      {/* Common Footer */}
-      <Footer />
-
       {/* Floating WhatsApp Button */}
       <a
-        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`}
+        href="https://wa.me/2349025765871?text=Hi,%20I%20would%20love%20to%20place%20an%20order"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 bg-peach-500 hover:bg-peach-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:shadow-xl"
-        aria-label="Chat on WhatsApp"
+        className="fixed bottom-6 right-6 bg-peach-500 text-white p-3 rounded-full shadow-lg hover:bg-peach-600 transition-all duration-300 flex items-center gap-2"
       >
-        <FaWhatsapp className="w-8 h-8" />
+        <FaWhatsapp size={28} />
       </a>
+
+      {/* Common Footer */}
+      <Footer />
     </div>
   );
 };
